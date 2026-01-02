@@ -1,0 +1,18 @@
+program Test;
+var int16_t A, B
+
+start
+    %% Test 1: Using undeclared variable %%
+    X <- 10;
+
+    %% Test 2: Double declaration would be caught if in same var block %%
+    A <- 5;
+
+    %% Test 3: Using undeclared variable in expression %%
+    A <- B + Y;
+
+    %% Test 4: Undeclared variable in condition %%
+    if Z eg 0 start
+        A <- 1
+    finish
+finish
