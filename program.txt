@@ -1,22 +1,22 @@
-program BigT;
-var int16_t A, B, Sum, I, Max, Res
+program PROG;
+var int16_t A, B, SUM, I, MAX, RES
 
 start
     %% 1. Ініціалізація та граничні значення (до 32767) %%
     A <- 10;
     B <- 32000;
-    Max <- 32767;
+    MAX <- 32767;
 
     %% 2. Ввід та Вивід (get, put) %%
-    get Sum;
-    put Max;
+    get SUM;
+    put MAX;
 
     %% 3. Арифметика (+, -, *, /, %) %%
-    Sum <- A + B * 2 / 5;
-    Res <- Sum % 10;
+    SUM <- A + B * 2 / 5;
+    RES <- SUM % 10;
 
     %% 4. Логіка (eg, ne, and, or, !, >=, <=) %%
-    if A ne 0 and B >= A or ! Sum eg 0 start
+    if A ne 0 and B >= A or ! SUM eg 0 start
         A <- A - 1
     finish
     else start
@@ -25,6 +25,6 @@ start
 
     %% 5. Цикл з діапазоном (..) %%
     for I in 1 .. 10 start
-        Sum <- Sum + I
+        SUM <- SUM + I
     finish
 finish

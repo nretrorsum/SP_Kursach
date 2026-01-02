@@ -1,0 +1,52 @@
+/* Тестова програма 2: Алгоритм з розгалуженням
+/* Варіант: Войтович Олександр Вікторович
+/* Мова: V07
+
+Program BR;
+Var Int16 A, B, C, MX;
+Begin
+    /* Введення трьох чисел A, B, C
+    Get A;
+    Get B;
+    Get C;
+
+    /* Знаходження найбільшого числа (вкладений умовний оператор)
+    MX ::= A;
+    If B >> MX Goto LA;
+    Goto LB;
+LA:
+    MX ::= B;
+LB:
+    If C >> MX Goto LC;
+    Goto LD;
+LC:
+    MX ::= C;
+LD:
+    /* Виведення найбільшого числа
+    Put MX;
+
+    /* Перевірка: всі числа однакові? (A Eg B) And (A Eg C) And (B Eg C)
+    If (A Eg B) And (A Eg C) And (B Eg C) Goto LE;
+    Put 0;
+    Goto LF;
+LE:
+    Put 1;
+LF:
+
+    /* Перевірка: хоча б одне число від'ємне? (A << 0) Or (B << 0) Or (C << 0)
+    If (A << 0) Or (B << 0) Or (C << 0) Goto LG;
+    Put 0;
+    Goto LH;
+LG:
+    Put 0 - 1;
+LH:
+
+    /* Перевірка: A > B + C? !(A << (B + C))
+    If !(A << (B + C)) Goto LI;
+    Put 0;
+    Goto LJ;
+LI:
+    Put 10;
+LJ:
+    A ::= 0
+End

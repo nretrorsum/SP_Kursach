@@ -1,0 +1,27 @@
+/* Демонстраційна програма мови V07
+/* Варіант: Войтович Олександр Вікторович
+
+Program DM;
+Var Int16 A, B, X;
+Begin
+    /* Введення даних
+    Get A;
+    Get B;
+
+    /* Обчислення суми
+    X ::= A + B;
+    Put X;
+
+    /* Умовний оператор
+    If A >> B Goto LA;
+    Put B;
+    Goto LB;
+LA:
+    Put A;
+LB:
+
+    /* Цикл
+    For X ::= 1 To 5
+        Put X Mul X
+    Next X
+End
