@@ -1,10 +1,10 @@
 /**
- * Курсовий проект з Системного Програмування
- * Тема: Розробка транслятора з вхідної мови програмування V07
- * Варіант: Войтович Олександр Вікторович
+ * Course Project on System Programming
+ * Topic: Development of a translator for the V07 programming language
+ * Variant: Voitovych Oleksandr Viktorovych
  *
- * Файл: codegen.h
- * Опис: Заголовний файл генератора коду (трансляція в C)
+ * File: codegen.h
+ * Description: Code generator header file (translation to C)
  */
 
 #ifndef CODEGEN_H
@@ -18,24 +18,24 @@ class CodeGenerator {
 public:
     CodeGenerator();
 
-    // Генерація коду програми
+    // Generate program code
     std::string generate(const Program& program);
 
 private:
     std::stringstream output;
     int indentLevel;
 
-    // Допоміжні методи
+    // Helper methods
     void indent();
     void writeLine(const std::string& line);
     void write(const std::string& text);
 
-    // Генерація частин програми
+    // Program parts generation
     void generateIncludes();
     void generateVariables(const std::vector<std::string>& variables);
     void generateStatements(const std::vector<std::unique_ptr<Statement>>& statements);
 
-    // Генерація операторів
+    // Statement generation
     void generateStatement(const Statement* stmt);
     void generateAssignment(const AssignmentStmt* stmt);
     void generateGet(const GetStmt* stmt);
@@ -46,12 +46,12 @@ private:
     void generateBlock(const BlockStmt* stmt);
     void generateLabel(const LabelStmt* stmt);
 
-    // Генерація виразів
+    // Expression generation
     std::string generateExpression(const Expression* expr);
     std::string generateBinaryExpr(const BinaryExpr* expr);
     std::string generateUnaryExpr(const UnaryExpr* expr);
 
-    // Перетворення операторів V07 в оператори C
+    // Convert V07 operators to C operators
     std::string translateOperator(const std::string& op);
 };
 

@@ -1,12 +1,12 @@
 /**
- * Курсовий проект з Системного Програмування
- * Тема: Розробка транслятора з вхідної мови програмування V07
- * Варіант: Войтович Олександр Вікторович
+ * Course Project on System Programming
+ * Topic: Development of a translator for the V07 programming language
+ * Variant: Voitovych Oleksandr Viktorovych
  *
- * Файл: main.cpp
- * Опис: Головний файл транслятора - точка входу програми
+ * File: main.cpp
+ * Description: Main translator file - program entry point
  *
- * Дата створення: 2024
+ * Created: 2024
  */
 
 #include <iostream>
@@ -24,11 +24,11 @@
 
 using namespace std;
 
-// Функція для читання файлу
+// Function to read a file
 string readFile(const string& filename) {
     ifstream file(filename);
     if (!file.is_open()) {
-        cerr << "Помилка: Не вдалося відкрити файл '" << filename << "'" << endl;
+        cerr << "Error: Could not open file '" << filename << "'" << endl;
         return "";
     }
 
@@ -37,11 +37,11 @@ string readFile(const string& filename) {
     return buffer.str();
 }
 
-// Функція для запису файлу
+// Function to write a file
 bool writeFile(const string& filename, const string& content) {
     ofstream file(filename);
     if (!file.is_open()) {
-        cerr << "Помилка: Не вдалося створити файл '" << filename << "'" << endl;
+        cerr << "Error: Could not create file '" << filename << "'" << endl;
         return false;
     }
 
@@ -49,7 +49,7 @@ bool writeFile(const string& filename, const string& content) {
     return true;
 }
 
-// Візуалізація процесу парсингу (рядок за рядком)
+// Visualization of parsing process (line by line)
 void logLineTransformation(const string& sourceCode, const vector<Token>& tokens) {
     stringstream ss(sourceCode);
     string lineContent;
@@ -87,17 +87,17 @@ void logLineTransformation(const string& sourceCode, const vector<Token>& tokens
     cout << "======================================================================\n" << endl;
 }
 
-// Виведення токенів
+// Print tokens
 void printTokens(const vector<Token>& tokens) {
-    cout << "\n========== ЛЕКСИЧНИЙ АНАЛІЗ ==========\n";
-    cout << "Список токенів:\n";
+    cout << "\n========== LEXICAL ANALYSIS ==========\n";
+    cout << "Token list:\n";
     cout << "-------------------------------------------\n";
 
     int currentLine = 0;
     for (const auto& token : tokens) {
         if (token.line != currentLine) {
             if (currentLine != 0) cout << "\n";
-            cout << "Рядок " << token.line << ": ";
+            cout << "Line " << token.line << ": ";
             currentLine = token.line;
         }
 
@@ -110,13 +110,13 @@ void printTokens(const vector<Token>& tokens) {
     cout << "\n-------------------------------------------\n";
 }
 
-// Виведення таблиці символів
+// Print symbol table
 void printSymbolTable(SymbolTable& symbolTable) {
-    cout << "\n========== ТАБЛИЦЯ СИМВОЛІВ ==========\n";
+    cout << "\n========== SYMBOL TABLE ==========\n";
 
-    cout << "\nЗмінні:\n";
+    cout << "\nVariables:\n";
     cout << "-------------------------------------------\n";
-    cout << "Ім'я\tТип\tРядок\tІніціалізована\n";
+    cout << "Name\tType\tLine\tInitialized\n";
     cout << "-------------------------------------------\n";
 
     for (const auto& varName : symbolTable.getVariableOrder()) {
@@ -125,14 +125,14 @@ void printSymbolTable(SymbolTable& symbolTable) {
             cout << var->name << "\t"
                       << var->dataType << "\t"
                       << var->declarationLine << "\t"
-                      << (var->isInitialized ? "Так" : "Ні") << "\n";
+                      << (var->isInitialized ? "Yes" : "No") << "\n";
         }
     }
 
     if (!symbolTable.getLabelOrder().empty()) {
-        cout << "\nМітки:\n";
+        cout << "\nLabels:\n";
         cout << "-------------------------------------------\n";
-        cout << "Ім'я\tРядок\tВизначена\n";
+        cout << "Name\tLine\tDefined\n";
         cout << "-------------------------------------------\n";
 
         for (const auto& labelName : symbolTable.getLabelOrder()) {
@@ -140,28 +140,28 @@ void printSymbolTable(SymbolTable& symbolTable) {
             if (label) {
                 cout << label->name << "\t"
                           << label->declarationLine << "\t"
-                          << (label->isDefined ? "Так" : "Ні") << "\n";
+                          << (label->isDefined ? "Yes" : "No") << "\n";
             }
         }
     }
     cout << "-------------------------------------------\n";
 }
 
-// Виведення помилок
+// Print errors
 void printErrors(const string& phase, const vector<string>& errors) {
     if (errors.empty()) return;
 
-    cout << "\n========== ПОМИЛКИ (" << phase << ") ==========\n";
+    cout << "\n========== ERRORS (" << phase << ") ==========\n";
     for (const auto& error : errors) {
         cout << "  " << error << "\n";
     }
 }
 
-// Виведення попереджень
+// Print warnings
 void printWarnings(const vector<string>& warnings) {
     if (warnings.empty()) return;
 
-    cout << "\n========== ПОПЕРЕДЖЕННЯ ==========\n";
+    cout << "\n========== WARNINGS ==========\n";
     for (const auto& warning : warnings) {
         cout << "  " << warning << "\n";
     }
@@ -169,156 +169,156 @@ void printWarnings(const vector<string>& warnings) {
 
 int main(int argc, char* argv[]) {
     cout << "=============================================\n";
-    cout << "  Транслятор мови V07\n";
-    cout << "  Варіант: Войтович Олександр Вікторович\n";
-    cout << "  Курсовий проект з Системного Програмування\n";
+    cout << "  V07 Language Translator\n";
+    cout << "  Variant: Voitovych Oleksandr Viktorovych\n";
+    cout << "  Course Project on System Programming\n";
     cout << "=============================================\n";
 
-    // Визначення вхідного файлу
+    // Determine input file
     string inputFile = "program.v07";
     if (argc > 1) {
         inputFile = argv[1];
     }
 
-    // Читання вхідного файлу
-    cout << "\nВхідний файл: " << inputFile << "\n";
+    // Read input file
+    cout << "\nInput file: " << inputFile << "\n";
     string source = readFile(inputFile);
     if (source.empty()) {
         return 1;
     }
 
-    cout << "\n========== ВХІДНИЙ КОД ==========\n";
+    cout << "\n========== SOURCE CODE ==========\n";
     cout << source << "\n";
 
     bool hasErrors = false;
 
-    // 1. ЛЕКСИЧНИЙ АНАЛІЗ
-    cout << "\n[1] Виконується лексичний аналіз...\n";
+    // 1. LEXICAL ANALYSIS
+    cout << "\n[1] Performing lexical analysis...\n";
     Lexer lexer(source);
     vector<Token> tokens = lexer.tokenize();
 
-    // Візуалізація процесу парсингу
+    // Visualization of parsing process
     logLineTransformation(source, tokens);
 
     printTokens(tokens);
 
     if (lexer.hasErrors()) {
-        printErrors("Лексичний аналіз", lexer.getErrors());
+        printErrors("Lexical Analysis", lexer.getErrors());
         hasErrors = true;
     }
 
-    // Збереження токенів у файл
+    // Save tokens to file
     ofstream tokensFile("tokens.txt");
     if (tokensFile.is_open()) {
         for (const auto& token : tokens) {
-            tokensFile << "Рядок " << token.line << ", Стовпець " << token.column
+            tokensFile << "Line " << token.line << ", Column " << token.column
                        << ": " << tokenTypeToString(token.type)
                        << " = \"" << token.value << "\"\n";
         }
         tokensFile.close();
-        cout << "Токени збережено у файл: tokens.txt\n";
+        cout << "Tokens saved to file: tokens.txt\n";
     }
 
-    // 2. СИНТАКСИЧНИЙ АНАЛІЗ
-    cout << "\n[2] Виконується синтаксичний аналіз...\n";
+    // 2. SYNTAX ANALYSIS
+    cout << "\n[2] Performing syntax analysis...\n";
     Parser parser(tokens);
     auto program = parser.parse();
 
     if (parser.hasErrors()) {
-        printErrors("Синтаксичний аналіз", parser.getErrors());
+        printErrors("Syntax Analysis", parser.getErrors());
         hasErrors = true;
     } else {
-        cout << "Синтаксичний аналіз завершено успішно.\n";
-        cout << "Ім'я програми: " << program->name << "\n";
-        cout << "Кількість змінних: " << program->variables.size() << "\n";
-        cout << "Кількість операторів: " << program->statements.size() << "\n";
+        cout << "Syntax analysis completed successfully.\n";
+        cout << "Program name: " << program->name << "\n";
+        cout << "Number of variables: " << program->variables.size() << "\n";
+        cout << "Number of statements: " << program->statements.size() << "\n";
     }
 
-    // 3. СЕМАНТИЧНИЙ АНАЛІЗ
-    cout << "\n[3] Виконується семантичний аналіз...\n";
+    // 3. SEMANTIC ANALYSIS
+    cout << "\n[3] Performing semantic analysis...\n";
     SemanticAnalyzer semantic(parser.getSymbolTable());
     semantic.analyze(*program);
 
     printSymbolTable(parser.getSymbolTable());
 
     if (semantic.hasErrors()) {
-        printErrors("Семантичний аналіз", semantic.getErrors());
+        printErrors("Semantic Analysis", semantic.getErrors());
         hasErrors = true;
     } else {
-        cout << "Семантичний аналіз завершено успішно.\n";
+        cout << "Semantic analysis completed successfully.\n";
     }
 
     if (semantic.hasWarnings()) {
         printWarnings(semantic.getWarnings());
     }
 
-    // Збереження помилок у файл
+    // Save errors to file
     ofstream errorsFile("errors.txt");
     if (errorsFile.is_open()) {
         if (!hasErrors && !semantic.hasWarnings()) {
-            errorsFile << "Помилок не виявлено.\n";
+            errorsFile << "No errors detected.\n";
         } else {
             if (lexer.hasErrors()) {
-                errorsFile << "=== Лексичні помилки ===\n";
+                errorsFile << "=== Lexical Errors ===\n";
                 for (const auto& err : lexer.getErrors()) {
                     errorsFile << err << "\n";
                 }
             }
             if (parser.hasErrors()) {
-                errorsFile << "=== Синтаксичні помилки ===\n";
+                errorsFile << "=== Syntax Errors ===\n";
                 for (const auto& err : parser.getErrors()) {
                     errorsFile << err << "\n";
                 }
             }
             if (semantic.hasErrors()) {
-                errorsFile << "=== Семантичні помилки ===\n";
+                errorsFile << "=== Semantic Errors ===\n";
                 for (const auto& err : semantic.getErrors()) {
                     errorsFile << err << "\n";
                 }
             }
             if (semantic.hasWarnings()) {
-                errorsFile << "=== Попередження ===\n";
+                errorsFile << "=== Warnings ===\n";
                 for (const auto& warn : semantic.getWarnings()) {
                     errorsFile << warn << "\n";
                 }
             }
         }
         errorsFile.close();
-        cout << "Звіт про помилки збережено у файл: errors.txt\n";
+        cout << "Error report saved to file: errors.txt\n";
     }
 
-    // 4. ГЕНЕРАЦІЯ КОДУ
+    // 4. CODE GENERATION
     if (hasErrors) {
-        cout << "\n[!] Генерація коду пропущена через наявність помилок.\n";
+        cout << "\n[!] Code generation skipped due to errors.\n";
         return 1;
     }
 
-    cout << "\n[4] Виконується генерація коду...\n";
+    cout << "\n[4] Performing code generation...\n";
     CodeGenerator codegen;
     string cCode = codegen.generate(*program);
 
-    cout << "\n========== ЗГЕНЕРОВАНИЙ C КОД ==========\n";
+    cout << "\n========== GENERATED C CODE ==========\n";
     cout << cCode;
-    cout << "=========================================\n";
+    cout << "=======================================\n";
 
-    // Збереження C коду
+    // Save C code
     string outputCFile = "output.c";
     if (writeFile(outputCFile, cCode)) {
-        cout << "C код збережено у файл: " << outputCFile << "\n";
+        cout << "C code saved to file: " << outputCFile << "\n";
     }
 
-    // 5. КОМПІЛЯЦІЯ C КОДУ
-    cout << "\n[5] Компіляція згенерованого C коду...\n";
+    // 5. C CODE COMPILATION
+    cout << "\n[5] Compiling generated C code...\n";
     string compileCommand = "gcc -o output " + outputCFile + " 2>&1";
     int compileResult = system(compileCommand.c_str());
 
     if (compileResult == 0) {
-        cout << "Компіляція успішна! Виконуваний файл: output\n";
+        cout << "Compilation successful! Executable: output\n";
         cout << "\n=============================================\n";
-        cout << "  Трансляція завершена успішно!\n";
+        cout << "  Translation completed successfully!\n";
         cout << "=============================================\n";
     } else {
-        cout << "Помилка компіляції C коду.\n";
+        cout << "C code compilation error.\n";
         return 1;
     }
 

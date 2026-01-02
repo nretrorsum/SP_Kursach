@@ -1,10 +1,10 @@
 /**
- * Курсовий проект з Системного Програмування
- * Тема: Розробка транслятора з вхідної мови програмування V07
- * Варіант: Войтович Олександр Вікторович
+ * Course Project on System Programming
+ * Topic: Development of a translator for the V07 programming language
+ * Variant: Voitovych Oleksandr Viktorovych
  *
- * Файл: parser.cpp
- * Опис: Реалізація синтаксичного аналізатора (рекурсивний спуск)
+ * File: parser.cpp
+ * Description: Syntax analyzer implementation (recursive descent)
  */
 
 #include "parser.h"
@@ -54,7 +54,7 @@ Token Parser::consume(TokenType type, const std::string& message) {
 
 void Parser::addError(const std::string& message) {
     std::stringstream ss;
-    ss << "Синтаксична помилка [рядок " << peek().line << ", стовпець " << peek().column << "]: " << message;
+    ss << "Syntax error [line " << peek().line << ", column " << peek().column << "]: " << message;
     errors.push_back(ss.str());
 }
 
@@ -85,44 +85,44 @@ std::unique_ptr<Program> Parser::parse() {
 
 void Parser::parseProgram(Program& program) {
     // Program Name;
-    consume(TokenType::PROGRAM, "Очікується 'Program'");
-    Token nameToken = consume(TokenType::IDENTIFIER, "Очікується ім'я програми");
+    consume(TokenType::PROGRAM, "Expected 'Program'");
+    Token nameToken = consume(TokenType::IDENTIFIER, "Expected program name");
     program.name = nameToken.value;
-    consume(TokenType::SEMICOLON, "Очікується ';' після імені програми");
+    consume(TokenType::SEMICOLON, "Expected ';' after program name");
 
-    // Var Int16 змінні;
+    // Var Int16 variables;
     parseVarDeclaration(program);
 
     // Begin
-    consume(TokenType::BEGIN, "Очікується 'Begin'");
+    consume(TokenType::BEGIN, "Expected 'Begin'");
 
-    // Оператори
+    // Statements
     parseStatements(program.statements);
 
     // End
-    consume(TokenType::END, "Очікується 'End'");
+    consume(TokenType::END, "Expected 'End'");
 }
 
 void Parser::parseVarDeclaration(Program& program) {
     // Var
-    consume(TokenType::VAR, "Очікується 'Var'");
+    consume(TokenType::VAR, "Expected 'Var'");
 
     // Int16
-    consume(TokenType::INT16, "Очікується 'Int16'");
+    consume(TokenType::INT16, "Expected 'Int16'");
 
-    // Список змінних
+    // Variable list
     do {
-        Token varToken = consume(TokenType::IDENTIFIER, "Очікується ім'я змінної");
+        Token varToken = consume(TokenType::IDENTIFIER, "Expected variable name");
         if (varToken.type == TokenType::IDENTIFIER) {
             if (!symbolTable.addVariable(varToken.value, varToken.line)) {
-                addError("Змінна '" + varToken.value + "' вже оголошена");
+                addError("Variable '" + varToken.value + "' is already declared");
             } else {
                 program.variables.push_back(varToken.value);
             }
         }
     } while (match(TokenType::COMMA));
 
-    consume(TokenType::SEMICOLON, "Очікується ';' після оголошення змінних");
+    consume(TokenType::SEMICOLON, "Expected ';' after variable declaration");
 }
 
 void Parser::parseStatements(std::vector<std::unique_ptr<Statement>>& statements) {
@@ -132,15 +132,15 @@ void Parser::parseStatements(std::vector<std::unique_ptr<Statement>>& statements
             statements.push_back(std::move(stmt));
         }
 
-        // Опціональна крапка з комою після оператора
+        // Optional semicolon after statement
         match(TokenType::SEMICOLON);
     }
 }
 
 std::unique_ptr<Statement> Parser::parseStatement() {
-    // Перевіряємо на мітку (IDENTIFIER з наступною двокрапкою)
+    // Check for label (IDENTIFIER followed by colon)
     if (check(TokenType::IDENTIFIER)) {
-        // Заглядаємо вперед, щоб перевірити чи це мітка
+        // Look ahead to check if this is a label
         if (current + 1 < tokens.size() && tokens[current + 1].type == TokenType::COLON) {
             return parseLabel();
         }
@@ -154,7 +154,7 @@ std::unique_ptr<Statement> Parser::parseStatement() {
     if (check(TokenType::FOR)) return parseFor();
     if (check(TokenType::BEGIN)) return parseBlock();
 
-    addError("Невідомий оператор: " + peek().value);
+    addError("Unknown statement: " + peek().value);
     synchronize();
     return nullptr;
 }
@@ -168,12 +168,12 @@ std::unique_ptr<Statement> Parser::parseLabel() {
 }
 
 std::unique_ptr<Statement> Parser::parseAssignment() {
-    Token varToken = consume(TokenType::IDENTIFIER, "Очікується ім'я змінної");
-    consume(TokenType::ASSIGN, "Очікується '::='");
+    Token varToken = consume(TokenType::IDENTIFIER, "Expected variable name");
+    consume(TokenType::ASSIGN, "Expected '::='");
     auto expr = parseExpression();
 
     if (!symbolTable.hasVariable(varToken.value)) {
-        addError("Змінна '" + varToken.value + "' не оголошена");
+        addError("Variable '" + varToken.value + "' is not declared");
     } else {
         symbolTable.setInitialized(varToken.value);
     }
@@ -183,10 +183,10 @@ std::unique_ptr<Statement> Parser::parseAssignment() {
 
 std::unique_ptr<Statement> Parser::parseGet() {
     advance(); // Get
-    Token varToken = consume(TokenType::IDENTIFIER, "Очікується ім'я змінної");
+    Token varToken = consume(TokenType::IDENTIFIER, "Expected variable name");
 
     if (!symbolTable.hasVariable(varToken.value)) {
-        addError("Змінна '" + varToken.value + "' не оголошена");
+        addError("Variable '" + varToken.value + "' is not declared");
     } else {
         symbolTable.setInitialized(varToken.value);
     }
@@ -203,8 +203,8 @@ std::unique_ptr<Statement> Parser::parsePut() {
 std::unique_ptr<Statement> Parser::parseIf() {
     advance(); // If
     auto condition = parseExpression();
-    consume(TokenType::GOTO, "Очікується 'Goto' після умови");
-    Token labelToken = consume(TokenType::IDENTIFIER, "Очікується мітка");
+    consume(TokenType::GOTO, "Expected 'Goto' after condition");
+    Token labelToken = consume(TokenType::IDENTIFIER, "Expected label");
 
     symbolTable.useLabel(labelToken.value, labelToken.line);
 
@@ -213,7 +213,7 @@ std::unique_ptr<Statement> Parser::parseIf() {
 
 std::unique_ptr<Statement> Parser::parseGoto() {
     advance(); // Goto
-    Token labelToken = consume(TokenType::IDENTIFIER, "Очікується мітка");
+    Token labelToken = consume(TokenType::IDENTIFIER, "Expected label");
 
     symbolTable.useLabel(labelToken.value, labelToken.line);
 
@@ -222,22 +222,22 @@ std::unique_ptr<Statement> Parser::parseGoto() {
 
 std::unique_ptr<Statement> Parser::parseFor() {
     advance(); // For
-    Token varToken = consume(TokenType::IDENTIFIER, "Очікується змінна циклу");
+    Token varToken = consume(TokenType::IDENTIFIER, "Expected loop variable");
 
     if (!symbolTable.hasVariable(varToken.value)) {
-        addError("Змінна '" + varToken.value + "' не оголошена");
+        addError("Variable '" + varToken.value + "' is not declared");
     } else {
         symbolTable.setInitialized(varToken.value);
     }
 
-    consume(TokenType::ASSIGN, "Очікується '::='");
+    consume(TokenType::ASSIGN, "Expected '::='");
     auto start = parseExpression();
-    consume(TokenType::TO, "Очікується 'To'");
+    consume(TokenType::TO, "Expected 'To'");
     auto end = parseExpression();
 
     auto forStmt = std::make_unique<ForStmt>(varToken.value, std::move(start), std::move(end));
 
-    // Тіло циклу (оператори до Next)
+    // Loop body (statements until Next)
     while (!isAtEnd() && !check(TokenType::NEXT)) {
         auto stmt = parseStatement();
         if (stmt) {
@@ -246,11 +246,11 @@ std::unique_ptr<Statement> Parser::parseFor() {
         match(TokenType::SEMICOLON);
     }
 
-    consume(TokenType::NEXT, "Очікується 'Next'");
-    Token nextVar = consume(TokenType::IDENTIFIER, "Очікується змінна після 'Next'");
+    consume(TokenType::NEXT, "Expected 'Next'");
+    Token nextVar = consume(TokenType::IDENTIFIER, "Expected variable after 'Next'");
 
     if (nextVar.value != varToken.value) {
-        addError("Змінна після 'Next' повинна збігатися зі змінною циклу '" + varToken.value + "'");
+        addError("Variable after 'Next' must match loop variable '" + varToken.value + "'");
     }
 
     return forStmt;
@@ -262,12 +262,12 @@ std::unique_ptr<Statement> Parser::parseBlock() {
 
     parseStatements(block->statements);
 
-    consume(TokenType::END, "Очікується 'End'");
+    consume(TokenType::END, "Expected 'End'");
 
     return block;
 }
 
-// Парсинг виразів з урахуванням пріоритету операцій
+// Expression parsing with operator precedence
 
 std::unique_ptr<Expression> Parser::parseExpression() {
     return parseOr();
@@ -354,31 +354,31 @@ std::unique_ptr<Expression> Parser::parseUnary() {
 }
 
 std::unique_ptr<Expression> Parser::parsePrimary() {
-    // Число
+    // Number
     if (match(TokenType::NUMBER)) {
         return std::make_unique<NumberExpr>(std::stoi(previous().value));
     }
 
-    // Ідентифікатор
+    // Identifier
     if (match(TokenType::IDENTIFIER)) {
         std::string name = previous().value;
         if (!symbolTable.hasVariable(name)) {
-            addError("Змінна '" + name + "' не оголошена");
+            addError("Variable '" + name + "' is not declared");
         } else if (!symbolTable.isInitialized(name)) {
-            // Попередження про неініціалізовану змінну
-            std::cerr << "Попередження [рядок " << previous().line << "]: Змінна '"
-                      << name << "' може бути не ініціалізована" << std::endl;
+            // Warning about uninitialized variable
+            std::cerr << "Warning [line " << previous().line << "]: Variable '"
+                      << name << "' may be uninitialized" << std::endl;
         }
         return std::make_unique<IdentifierExpr>(name);
     }
 
-    // Вираз у дужках
+    // Parenthesized expression
     if (match(TokenType::LPAREN)) {
         auto expr = parseExpression();
-        consume(TokenType::RPAREN, "Очікується ')' після виразу");
+        consume(TokenType::RPAREN, "Expected ')' after expression");
         return expr;
     }
 
-    addError("Очікується вираз, отримано: " + peek().value);
+    addError("Expected expression, got: " + peek().value);
     return std::make_unique<NumberExpr>(0);
 }

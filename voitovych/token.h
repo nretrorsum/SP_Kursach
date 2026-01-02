@@ -1,10 +1,10 @@
 /**
- * Курсовий проект з Системного Програмування
- * Тема: Розробка транслятора з вхідної мови програмування V07
- * Варіант: Войтович Олександр Вікторович
+ * Course Project on System Programming
+ * Topic: Development of a translator for the V07 programming language
+ * Variant: Voitovych Oleksandr Viktorovych
  *
- * Файл: token.h
- * Опис: Визначення типів токенів для лексичного аналізатора
+ * File: token.h
+ * Description: Token type definitions for lexical analyzer
  */
 
 #ifndef TOKEN_H
@@ -12,9 +12,9 @@
 
 #include <string>
 
-// Типи токенів для мови V07
+// Token types for V07 language
 enum class TokenType {
-    // Ключові слова (Up-Low case)
+    // Keywords (Up-Low case)
     PROGRAM,        // Program
     VAR,            // Var
     BEGIN,          // Begin
@@ -28,20 +28,20 @@ enum class TokenType {
     PUT,            // Put
     INT16,          // Int16
 
-    // Логічні оператори (ключові слова)
+    // Logical operators (keywords)
     AND,            // And
     OR,             // Or
 
-    // Арифметичні оператори (ключові слова)
+    // Arithmetic operators (keywords)
     MUL,            // Mul
     DIV,            // Div
     MOD,            // Mod
 
-    // Оператори порівняння (ключові слова)
+    // Comparison operators (keywords)
     EG,             // Eg (equal)
     NE,             // Ne (not equal)
 
-    // Оператори
+    // Operators
     ASSIGN,         // ::=
     PLUS,           // +
     MINUS,          // -
@@ -49,26 +49,26 @@ enum class TokenType {
     GT,             // >> (greater than)
     LT,             // << (less than)
 
-    // Розділювачі
+    // Delimiters
     SEMICOLON,      // ;
     COMMA,          // ,
     COLON,          // :
     LPAREN,         // (
     RPAREN,         // )
 
-    // Ідентифікатор та число
-    IDENTIFIER,     // Up2 - великі букви, макс 2 символи
-    NUMBER,         // Ціле число
+    // Identifier and number
+    IDENTIFIER,     // Up2 - uppercase letters, max 2 characters
+    NUMBER,         // Integer number
 
-    // Мітка для Goto
-    LABEL,          // Мітка (ідентифікатор з двокрапкою)
+    // Label for Goto
+    LABEL,          // Label (identifier with colon)
 
-    // Службові
-    END_OF_FILE,    // Кінець файлу
-    UNKNOWN         // Невідомий токен
+    // Service tokens
+    END_OF_FILE,    // End of file
+    UNKNOWN         // Unknown token
 };
 
-// Структура токена
+// Token structure
 struct Token {
     TokenType type;
     std::string value;
@@ -79,7 +79,7 @@ struct Token {
         : type(t), value(v), line(l), column(c) {}
 };
 
-// Функція для отримання назви токена
+// Function to get token name
 inline std::string tokenTypeToString(TokenType type) {
     switch (type) {
         case TokenType::PROGRAM: return "PROGRAM";

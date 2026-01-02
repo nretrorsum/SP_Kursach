@@ -1,17 +1,17 @@
 /**
- * Курсовий проект з Системного Програмування
- * Тема: Розробка транслятора з вхідної мови програмування V07
- * Варіант: Войтович Олександр Вікторович
+ * Course Project on System Programming
+ * Topic: Development of a translator for the V07 programming language
+ * Variant: Voitovych Oleksandr Viktorovych
  *
- * Файл: lexer.cpp
- * Опис: Реалізація лексичного аналізатора
+ * File: lexer.cpp
+ * Description: Lexical analyzer implementation
  */
 
 #include "lexer.h"
 #include <cctype>
 #include <sstream>
 
-// Ініціалізація таблиці ключових слів (Up-Low case, перший символ Up)
+// Keyword table initialization (Up-Low case, first character uppercase)
 std::unordered_map<std::string, TokenType> Lexer::keywords = {
     {"Program", TokenType::PROGRAM},
     {"Var", TokenType::VAR},
@@ -74,7 +74,7 @@ void Lexer::skipWhitespace() {
 }
 
 void Lexer::skipComment() {
-    // Коментар починається з /* і продовжується до кінця рядка
+    // Comment starts with /* and continues to end of line
     if (peek() == '/' && peekNext() == '*') {
         advance(); // /
         advance(); // *
@@ -86,21 +86,21 @@ void Lexer::skipComment() {
 
 void Lexer::addError(const std::string& message) {
     std::stringstream ss;
-    ss << "Лексична помилка [рядок " << line << ", стовпець " << column << "]: " << message;
+    ss << "Lexical error [line " << line << ", column " << column << "]: " << message;
     errors.push_back(ss.str());
 }
 
 bool Lexer::isValidIdentifier(const std::string& id) const {
-    // Ідентифікатори: Up2 - тільки великі букви, максимум 2 символи
-    // Перший символ має бути великою буквою
+    // Identifiers: Up2 - uppercase letters only, max 2 characters
+    // First character must be uppercase
     if (id.empty() || id.length() > 2) {
         return false;
     }
-    // Перший символ - велика буква
+    // First character - uppercase letter
     if (!std::isupper(id[0])) {
         return false;
     }
-    // Другий символ (якщо є) - велика буква
+    // Second character (if exists) - uppercase letter
     if (id.length() == 2 && !std::isupper(id[1])) {
         return false;
     }
@@ -108,7 +108,7 @@ bool Lexer::isValidIdentifier(const std::string& id) const {
 }
 
 bool Lexer::isValidNumber(const std::string& num) const {
-    // Перевірка діапазону Int16: -32768 до 32767
+    // Check Int16 range: -32768 to 32767
     try {
         long value = std::stol(num);
         return value >= -32768 && value <= 32767;
@@ -122,20 +122,20 @@ Token Lexer::readIdentifierOrKeyword() {
     int startColumn = column;
     std::string value;
 
-    // Читаємо ідентифікатор/ключове слово
+    // Read identifier/keyword
     while (!isAtEnd() && (std::isalnum(peek()) || peek() == '_')) {
         value += advance();
     }
 
-    // Перевіряємо чи це ключове слово
+    // Check if it's a keyword
     auto it = keywords.find(value);
     if (it != keywords.end()) {
         return Token(it->second, value, startLine, startColumn);
     }
 
-    // Це ідентифікатор - перевіряємо правила Up2
+    // This is an identifier - check Up2 rules
     if (!isValidIdentifier(value)) {
-        addError("Невірний ідентифікатор '" + value + "'. Ідентифікатор повинен містити тільки великі букви (макс. 2 символи)");
+        addError("Invalid identifier '" + value + "'. Identifier must contain only uppercase letters (max 2 characters)");
         return Token(TokenType::UNKNOWN, value, startLine, startColumn);
     }
 
@@ -152,7 +152,7 @@ Token Lexer::readNumber() {
     }
 
     if (!isValidNumber(value)) {
-        addError("Число '" + value + "' виходить за межі діапазону Int16 (-32768..32767)");
+        addError("Number '" + value + "' is out of Int16 range (-32768..32767)");
         return Token(TokenType::UNKNOWN, value, startLine, startColumn);
     }
 
@@ -167,7 +167,7 @@ Token Lexer::readOperator() {
 
     switch (c) {
         case ':':
-            // Перевіряємо на ::=
+            // Check for ::=
             if (peek() == ':' && peekNext() == '=') {
                 advance(); // :
                 advance(); // =
@@ -180,7 +180,7 @@ Token Lexer::readOperator() {
                 advance();
                 return Token(TokenType::GT, ">>", startLine, startColumn);
             }
-            addError("Невідомий оператор '>'");
+            addError("Unknown operator '>'");
             return Token(TokenType::UNKNOWN, ">", startLine, startColumn);
 
         case '<':
@@ -188,7 +188,7 @@ Token Lexer::readOperator() {
                 advance();
                 return Token(TokenType::LT, "<<", startLine, startColumn);
             }
-            addError("Невідомий оператор '<'");
+            addError("Unknown operator '<'");
             return Token(TokenType::UNKNOWN, "<", startLine, startColumn);
 
         case '+':
@@ -213,7 +213,7 @@ Token Lexer::readOperator() {
             return Token(TokenType::RPAREN, ")", startLine, startColumn);
 
         default:
-            addError(std::string("Невідомий символ '") + c + "'");
+            addError(std::string("Unknown character '") + c + "'");
             return Token(TokenType::UNKNOWN, std::string(1, c), startLine, startColumn);
     }
 }
@@ -221,7 +221,7 @@ Token Lexer::readOperator() {
 Token Lexer::getNextToken() {
     skipWhitespace();
 
-    // Пропускаємо коментарі
+    // Skip comments
     while (peek() == '/' && peekNext() == '*') {
         skipComment();
         skipWhitespace();
@@ -233,17 +233,17 @@ Token Lexer::getNextToken() {
 
     char c = peek();
 
-    // Ідентифікатор або ключове слово
+    // Identifier or keyword
     if (std::isalpha(c)) {
         return readIdentifierOrKeyword();
     }
 
-    // Число
+    // Number
     if (std::isdigit(c)) {
         return readNumber();
     }
 
-    // Оператор або розділювач
+    // Operator or delimiter
     return readOperator();
 }
 

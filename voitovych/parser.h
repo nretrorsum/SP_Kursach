@@ -1,10 +1,10 @@
 /**
- * Курсовий проект з Системного Програмування
- * Тема: Розробка транслятора з вхідної мови програмування V07
- * Варіант: Войтович Олександр Вікторович
+ * Course Project on System Programming
+ * Topic: Development of a translator for the V07 programming language
+ * Variant: Voitovych Oleksandr Viktorovych
  *
- * Файл: parser.h
- * Опис: Заголовний файл синтаксичного аналізатора
+ * File: parser.h
+ * Description: Syntax analyzer header file
  */
 
 #ifndef PARSER_H
@@ -16,29 +16,29 @@
 #include <string>
 #include <memory>
 
-// Вузли AST (Abstract Syntax Tree)
+// AST (Abstract Syntax Tree) nodes
 struct ASTNode {
     virtual ~ASTNode() = default;
 };
 
-// Вираз
+// Expression
 struct Expression : ASTNode {
     virtual ~Expression() = default;
 };
 
-// Число
+// Number
 struct NumberExpr : Expression {
     int value;
     NumberExpr(int v) : value(v) {}
 };
 
-// Ідентифікатор
+// Identifier
 struct IdentifierExpr : Expression {
     std::string name;
     IdentifierExpr(const std::string& n) : name(n) {}
 };
 
-// Унарний вираз
+// Unary expression
 struct UnaryExpr : Expression {
     std::string op;
     std::unique_ptr<Expression> operand;
@@ -46,7 +46,7 @@ struct UnaryExpr : Expression {
         : op(o), operand(std::move(e)) {}
 };
 
-// Бінарний вираз
+// Binary expression
 struct BinaryExpr : Expression {
     std::string op;
     std::unique_ptr<Expression> left;
@@ -55,12 +55,12 @@ struct BinaryExpr : Expression {
         : op(o), left(std::move(l)), right(std::move(r)) {}
 };
 
-// Оператор (statement)
+// Statement
 struct Statement : ASTNode {
     virtual ~Statement() = default;
 };
 
-// Присвоєння
+// Assignment
 struct AssignmentStmt : Statement {
     std::string variable;
     std::unique_ptr<Expression> expression;
@@ -68,19 +68,19 @@ struct AssignmentStmt : Statement {
         : variable(v), expression(std::move(e)) {}
 };
 
-// Введення (Get)
+// Input (Get)
 struct GetStmt : Statement {
     std::string variable;
     GetStmt(const std::string& v) : variable(v) {}
 };
 
-// Виведення (Put)
+// Output (Put)
 struct PutStmt : Statement {
     std::unique_ptr<Expression> expression;
     PutStmt(std::unique_ptr<Expression> e) : expression(std::move(e)) {}
 };
 
-// Мітка
+// Label
 struct LabelStmt : Statement {
     std::string name;
     LabelStmt(const std::string& n) : name(n) {}
@@ -110,33 +110,33 @@ struct ForStmt : Statement {
         : variable(v), start(std::move(s)), end(std::move(e)) {}
 };
 
-// Складений оператор (Begin-End)
+// Block statement (Begin-End)
 struct BlockStmt : Statement {
     std::vector<std::unique_ptr<Statement>> statements;
 };
 
-// Програма
+// Program
 struct Program : ASTNode {
     std::string name;
     std::vector<std::string> variables;
     std::vector<std::unique_ptr<Statement>> statements;
 };
 
-// Синтаксичний аналізатор
+// Syntax analyzer
 class Parser {
 public:
     Parser(const std::vector<Token>& tokens);
 
-    // Парсинг програми
+    // Parse program
     std::unique_ptr<Program> parse();
 
-    // Перевірити чи є помилки
+    // Check if there are errors
     bool hasErrors() const { return !errors.empty(); }
 
-    // Отримати список помилок
+    // Get error list
     const std::vector<std::string>& getErrors() const { return errors; }
 
-    // Отримати таблицю символів
+    // Get symbol table
     SymbolTable& getSymbolTable() { return symbolTable; }
 
 private:
@@ -145,7 +145,7 @@ private:
     std::vector<std::string> errors;
     SymbolTable symbolTable;
 
-    // Допоміжні методи
+    // Helper methods
     Token peek() const;
     Token previous() const;
     Token advance();
@@ -156,12 +156,12 @@ private:
     void addError(const std::string& message);
     void synchronize();
 
-    // Парсинг структури програми
+    // Program structure parsing
     void parseProgram(Program& program);
     void parseVarDeclaration(Program& program);
     void parseStatements(std::vector<std::unique_ptr<Statement>>& statements);
 
-    // Парсинг операторів
+    // Statement parsing
     std::unique_ptr<Statement> parseStatement();
     std::unique_ptr<Statement> parseAssignment();
     std::unique_ptr<Statement> parseGet();
@@ -172,7 +172,7 @@ private:
     std::unique_ptr<Statement> parseBlock();
     std::unique_ptr<Statement> parseLabel();
 
-    // Парсинг виразів
+    // Expression parsing
     std::unique_ptr<Expression> parseExpression();
     std::unique_ptr<Expression> parseOr();
     std::unique_ptr<Expression> parseAnd();

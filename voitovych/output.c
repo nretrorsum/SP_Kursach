@@ -1,7 +1,7 @@
 /**
- * Згенерований код з мови V07
- * Програма: DM
- * Варіант: Войтович Олександр Вікторович
+ * Generated code from V07 language
+ * Program: DM
+ * Variant: Voitovych Oleksandr Viktorovych
  */
 
 #include <stdio.h>

@@ -1,10 +1,10 @@
 /**
- * Курсовий проект з Системного Програмування
- * Тема: Розробка транслятора з вхідної мови програмування V07
- * Варіант: Войтович Олександр Вікторович
+ * Course Project on System Programming
+ * Topic: Development of a translator for the V07 programming language
+ * Variant: Voitovych Oleksandr Viktorovych
  *
- * Файл: lexer.h
- * Опис: Заголовний файл лексичного аналізатора
+ * File: lexer.h
+ * Description: Lexical analyzer header file
  */
 
 #ifndef LEXER_H
@@ -19,16 +19,16 @@ class Lexer {
 public:
     Lexer(const std::string& source);
 
-    // Отримати наступний токен
+    // Get next token
     Token getNextToken();
 
-    // Отримати всі токени
+    // Get all tokens
     std::vector<Token> tokenize();
 
-    // Перевірити чи є помилки
+    // Check if there are errors
     bool hasErrors() const { return !errors.empty(); }
 
-    // Отримати список помилок
+    // Get error list
     const std::vector<std::string>& getErrors() const { return errors; }
 
 private:
@@ -38,10 +38,10 @@ private:
     int column;
     std::vector<std::string> errors;
 
-    // Таблиця ключових слів
+    // Keyword table
     static std::unordered_map<std::string, TokenType> keywords;
 
-    // Допоміжні методи
+    // Helper methods
     char peek() const;
     char peekNext() const;
     char advance();
@@ -49,16 +49,16 @@ private:
     void skipWhitespace();
     void skipComment();
 
-    // Методи розпізнавання токенів
+    // Token recognition methods
     Token readIdentifierOrKeyword();
     Token readNumber();
     Token readOperator();
 
-    // Валідація
+    // Validation
     bool isValidIdentifier(const std::string& id) const;
     bool isValidNumber(const std::string& num) const;
 
-    // Додавання помилки
+    // Add error
     void addError(const std::string& message);
 };
 

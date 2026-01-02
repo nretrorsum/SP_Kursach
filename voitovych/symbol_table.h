@@ -1,10 +1,10 @@
 /**
- * Курсовий проект з Системного Програмування
- * Тема: Розробка транслятора з вхідної мови програмування V07
- * Варіант: Войтович Олександр Вікторович
+ * Course Project on System Programming
+ * Topic: Development of a translator for the V07 programming language
+ * Variant: Voitovych Oleksandr Viktorovych
  *
- * Файл: symbol_table.h
- * Опис: Таблиця символів для зберігання інформації про змінні та мітки
+ * File: symbol_table.h
+ * Description: Symbol table for storing information about variables and labels
  */
 
 #ifndef SYMBOL_TABLE_H
@@ -14,20 +14,20 @@
 #include <unordered_map>
 #include <vector>
 
-// Тип символу
+// Symbol type
 enum class SymbolType {
     VARIABLE,
     LABEL
 };
 
-// Інформація про символ
+// Symbol information
 struct SymbolInfo {
     std::string name;
     SymbolType type;
     std::string dataType;  // Int16
     int declarationLine;
     bool isInitialized;
-    bool isDefined;        // Для міток - чи визначена мітка
+    bool isDefined;        // For labels - whether label is defined
 
     SymbolInfo(const std::string& n = "", SymbolType t = SymbolType::VARIABLE,
                const std::string& dt = "Int16", int line = 0)
@@ -35,23 +35,23 @@ struct SymbolInfo {
           isInitialized(false), isDefined(false) {}
 };
 
-// Таблиця символів
+// Symbol table
 class SymbolTable {
 public:
-    // Додати змінну
+    // Add variable
     bool addVariable(const std::string& name, int line) {
         if (variables.find(name) != variables.end()) {
-            return false; // Змінна вже існує
+            return false; // Variable already exists
         }
         variables[name] = SymbolInfo(name, SymbolType::VARIABLE, "Int16", line);
         variableOrder.push_back(name);
         return true;
     }
 
-    // Додати мітку
+    // Add label
     bool addLabel(const std::string& name, int line) {
         if (labels.find(name) != labels.end()) {
-            // Мітка вже використовується, позначаємо як визначену
+            // Label already used, mark as defined
             labels[name].isDefined = true;
             return true;
         }
@@ -62,7 +62,7 @@ public:
         return true;
     }
 
-    // Зареєструвати використання мітки (для Goto)
+    // Register label usage (for Goto)
     void useLabel(const std::string& name, int line) {
         if (labels.find(name) == labels.end()) {
             SymbolInfo info(name, SymbolType::LABEL, "", line);
@@ -72,17 +72,17 @@ public:
         }
     }
 
-    // Перевірити чи існує змінна
+    // Check if variable exists
     bool hasVariable(const std::string& name) const {
         return variables.find(name) != variables.end();
     }
 
-    // Перевірити чи існує мітка
+    // Check if label exists
     bool hasLabel(const std::string& name) const {
         return labels.find(name) != labels.end();
     }
 
-    // Перевірити чи мітка визначена
+    // Check if label is defined
     bool isLabelDefined(const std::string& name) const {
         auto it = labels.find(name);
         if (it != labels.end()) {
@@ -91,7 +91,7 @@ public:
         return false;
     }
 
-    // Отримати інформацію про змінну
+    // Get variable information
     SymbolInfo* getVariable(const std::string& name) {
         auto it = variables.find(name);
         if (it != variables.end()) {
@@ -100,7 +100,7 @@ public:
         return nullptr;
     }
 
-    // Отримати інформацію про мітку
+    // Get label information
     SymbolInfo* getLabel(const std::string& name) {
         auto it = labels.find(name);
         if (it != labels.end()) {
@@ -109,7 +109,7 @@ public:
         return nullptr;
     }
 
-    // Позначити змінну як ініціалізовану
+    // Mark variable as initialized
     void setInitialized(const std::string& name) {
         auto it = variables.find(name);
         if (it != variables.end()) {
@@ -117,7 +117,7 @@ public:
         }
     }
 
-    // Перевірити чи змінна ініціалізована
+    // Check if variable is initialized
     bool isInitialized(const std::string& name) const {
         auto it = variables.find(name);
         if (it != variables.end()) {
@@ -126,17 +126,17 @@ public:
         return false;
     }
 
-    // Отримати всі змінні (у порядку оголошення)
+    // Get all variables (in declaration order)
     const std::vector<std::string>& getVariableOrder() const {
         return variableOrder;
     }
 
-    // Отримати всі мітки
+    // Get all labels
     const std::vector<std::string>& getLabelOrder() const {
         return labelOrder;
     }
 
-    // Отримати всі невизначені мітки
+    // Get all undefined labels
     std::vector<std::string> getUndefinedLabels() const {
         std::vector<std::string> undefined;
         for (const auto& pair : labels) {
@@ -147,17 +147,17 @@ public:
         return undefined;
     }
 
-    // Отримати map змінних
+    // Get variables map
     const std::unordered_map<std::string, SymbolInfo>& getVariables() const {
         return variables;
     }
 
-    // Отримати map міток
+    // Get labels map
     const std::unordered_map<std::string, SymbolInfo>& getLabels() const {
         return labels;
     }
 
-    // Очистити таблицю
+    // Clear table
     void clear() {
         variables.clear();
         labels.clear();

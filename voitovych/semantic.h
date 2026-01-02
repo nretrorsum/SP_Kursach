@@ -1,10 +1,10 @@
 /**
- * Курсовий проект з Системного Програмування
- * Тема: Розробка транслятора з вхідної мови програмування V07
- * Варіант: Войтович Олександр Вікторович
+ * Course Project on System Programming
+ * Topic: Development of a translator for the V07 programming language
+ * Variant: Voitovych Oleksandr Viktorovych
  *
- * Файл: semantic.h
- * Опис: Заголовний файл семантичного аналізатора
+ * File: semantic.h
+ * Description: Semantic analyzer header file
  */
 
 #ifndef SEMANTIC_H
@@ -19,19 +19,19 @@ class SemanticAnalyzer {
 public:
     SemanticAnalyzer(SymbolTable& symbolTable);
 
-    // Аналіз програми
+    // Analyze program
     void analyze(const Program& program);
 
-    // Перевірити чи є помилки
+    // Check if there are errors
     bool hasErrors() const { return !errors.empty(); }
 
-    // Перевірити чи є попередження
+    // Check if there are warnings
     bool hasWarnings() const { return !warnings.empty(); }
 
-    // Отримати список помилок
+    // Get error list
     const std::vector<std::string>& getErrors() const { return errors; }
 
-    // Отримати список попереджень
+    // Get warning list
     const std::vector<std::string>& getWarnings() const { return warnings; }
 
 private:
@@ -39,11 +39,11 @@ private:
     std::vector<std::string> errors;
     std::vector<std::string> warnings;
 
-    // Аналіз операторів
+    // Statement analysis
     void analyzeStatement(const Statement* stmt);
     void analyzeExpression(const Expression* expr);
 
-    // Специфічний аналіз
+    // Specific analysis
     void analyzeAssignment(const AssignmentStmt* stmt);
     void analyzeGet(const GetStmt* stmt);
     void analyzePut(const PutStmt* stmt);
@@ -53,10 +53,10 @@ private:
     void analyzeBlock(const BlockStmt* stmt);
     void analyzeLabel(const LabelStmt* stmt);
 
-    // Перевірка міток
+    // Label checking
     void checkLabels();
 
-    // Додавання повідомлень
+    // Add messages
     void addError(const std::string& message);
     void addWarning(const std::string& message);
 };

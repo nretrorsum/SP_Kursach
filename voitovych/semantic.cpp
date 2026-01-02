@@ -1,10 +1,10 @@
 /**
- * Курсовий проект з Системного Програмування
- * Тема: Розробка транслятора з вхідної мови програмування V07
- * Варіант: Войтович Олександр Вікторович
+ * Course Project on System Programming
+ * Topic: Development of a translator for the V07 programming language
+ * Variant: Voitovych Oleksandr Viktorovych
  *
- * Файл: semantic.cpp
- * Опис: Реалізація семантичного аналізатора
+ * File: semantic.cpp
+ * Description: Semantic analyzer implementation
  */
 
 #include "semantic.h"
@@ -14,27 +14,27 @@ SemanticAnalyzer::SemanticAnalyzer(SymbolTable& symbolTable)
     : symbolTable(symbolTable) {}
 
 void SemanticAnalyzer::addError(const std::string& message) {
-    errors.push_back("Семантична помилка: " + message);
+    errors.push_back("Semantic error: " + message);
 }
 
 void SemanticAnalyzer::addWarning(const std::string& message) {
-    warnings.push_back("Попередження: " + message);
+    warnings.push_back("Warning: " + message);
 }
 
 void SemanticAnalyzer::analyze(const Program& program) {
-    // Аналіз всіх операторів
+    // Analyze all statements
     for (const auto& stmt : program.statements) {
         analyzeStatement(stmt.get());
     }
 
-    // Перевірка міток (чи всі використані мітки визначені)
+    // Check labels (verify all used labels are defined)
     checkLabels();
 
-    // Перевірка на невикористані змінні
+    // Check for unused variables
     for (const auto& varName : symbolTable.getVariableOrder()) {
         auto var = symbolTable.getVariable(varName);
         if (var && !var->isInitialized) {
-            addWarning("Змінна '" + varName + "' оголошена, але не ініціалізована");
+            addWarning("Variable '" + varName + "' is declared but not initialized");
         }
     }
 }
@@ -65,14 +65,14 @@ void SemanticAnalyzer::analyzeExpression(const Expression* expr) {
     if (!expr) return;
 
     if (auto num = dynamic_cast<const NumberExpr*>(expr)) {
-        // Перевірка діапазону числа
+        // Check number range
         if (num->value < -32768 || num->value > 32767) {
-            addError("Число " + std::to_string(num->value) + " виходить за межі діапазону Int16");
+            addError("Number " + std::to_string(num->value) + " is out of Int16 range");
         }
     } else if (auto id = dynamic_cast<const IdentifierExpr*>(expr)) {
-        // Перевірка чи змінна оголошена
+        // Check if variable is declared
         if (!symbolTable.hasVariable(id->name)) {
-            addError("Змінна '" + id->name + "' не оголошена");
+            addError("Variable '" + id->name + "' is not declared");
         }
     } else if (auto unary = dynamic_cast<const UnaryExpr*>(expr)) {
         analyzeExpression(unary->operand.get());
@@ -80,11 +80,11 @@ void SemanticAnalyzer::analyzeExpression(const Expression* expr) {
         analyzeExpression(binary->left.get());
         analyzeExpression(binary->right.get());
 
-        // Перевірка на ділення на нуль (якщо праий операнд - константа 0)
+        // Check for division by zero (if right operand is constant 0)
         if (binary->op == "Div" || binary->op == "Mod") {
             if (auto numRight = dynamic_cast<const NumberExpr*>(binary->right.get())) {
                 if (numRight->value == 0) {
-                    addError("Ділення на нуль");
+                    addError("Division by zero");
                 }
             }
         }
@@ -92,18 +92,18 @@ void SemanticAnalyzer::analyzeExpression(const Expression* expr) {
 }
 
 void SemanticAnalyzer::analyzeAssignment(const AssignmentStmt* stmt) {
-    // Перевірка чи змінна оголошена
+    // Check if variable is declared
     if (!symbolTable.hasVariable(stmt->variable)) {
-        addError("Змінна '" + stmt->variable + "' не оголошена");
+        addError("Variable '" + stmt->variable + "' is not declared");
     }
 
-    // Аналіз виразу
+    // Analyze expression
     analyzeExpression(stmt->expression.get());
 }
 
 void SemanticAnalyzer::analyzeGet(const GetStmt* stmt) {
     if (!symbolTable.hasVariable(stmt->variable)) {
-        addError("Змінна '" + stmt->variable + "' не оголошена");
+        addError("Variable '" + stmt->variable + "' is not declared");
     }
 }
 
@@ -112,27 +112,27 @@ void SemanticAnalyzer::analyzePut(const PutStmt* stmt) {
 }
 
 void SemanticAnalyzer::analyzeIfGoto(const IfGotoStmt* stmt) {
-    // Аналіз умови
+    // Analyze condition
     analyzeExpression(stmt->condition.get());
 
-    // Мітка буде перевірена в checkLabels()
+    // Label will be checked in checkLabels()
 }
 
 void SemanticAnalyzer::analyzeGoto(const GotoStmt* stmt) {
-    // Мітка буде перевірена в checkLabels()
+    // Label will be checked in checkLabels()
 }
 
 void SemanticAnalyzer::analyzeFor(const ForStmt* stmt) {
-    // Перевірка змінної циклу
+    // Check loop variable
     if (!symbolTable.hasVariable(stmt->variable)) {
-        addError("Змінна циклу '" + stmt->variable + "' не оголошена");
+        addError("Loop variable '" + stmt->variable + "' is not declared");
     }
 
-    // Аналіз меж циклу
+    // Analyze loop bounds
     analyzeExpression(stmt->start.get());
     analyzeExpression(stmt->end.get());
 
-    // Аналіз тіла циклу
+    // Analyze loop body
     for (const auto& bodyStmt : stmt->body) {
         analyzeStatement(bodyStmt.get());
     }
@@ -145,13 +145,13 @@ void SemanticAnalyzer::analyzeBlock(const BlockStmt* stmt) {
 }
 
 void SemanticAnalyzer::analyzeLabel(const LabelStmt* stmt) {
-    // Мітки вже оброблені в парсері
+    // Labels are already processed in parser
 }
 
 void SemanticAnalyzer::checkLabels() {
-    // Перевірка чи всі використані мітки визначені
+    // Check if all used labels are defined
     auto undefinedLabels = symbolTable.getUndefinedLabels();
     for (const auto& label : undefinedLabels) {
-        addError("Мітка '" + label + "' використовується, але не визначена");
+        addError("Label '" + label + "' is used but not defined");
     }
 }

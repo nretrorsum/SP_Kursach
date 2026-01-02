@@ -1,10 +1,10 @@
 /**
- * Курсовий проект з Системного Програмування
- * Тема: Розробка транслятора з вхідної мови програмування V07
- * Варіант: Войтович Олександр Вікторович
+ * Course Project on System Programming
+ * Topic: Development of a translator for the V07 programming language
+ * Variant: Voitovych Oleksandr Viktorovych
  *
- * Файл: codegen.cpp
- * Опис: Реалізація генератора коду (трансляція в C)
+ * File: codegen.cpp
+ * Description: Code generator implementation (translation to C)
  */
 
 #include "codegen.h"
@@ -27,7 +27,7 @@ void CodeGenerator::write(const std::string& text) {
 }
 
 std::string CodeGenerator::translateOperator(const std::string& op) {
-    // Перетворення операторів V07 в C
+    // Convert V07 operators to C
     if (op == "Mul") return "*";
     if (op == "Div") return "/";
     if (op == "Mod") return "%";
@@ -47,29 +47,29 @@ std::string CodeGenerator::generate(const Program& program) {
     output.str("");
     output.clear();
 
-    // Коментар з інформацією про програму
+    // Comment with program information
     writeLine("/**");
-    writeLine(" * Згенерований код з мови V07");
-    writeLine(" * Програма: " + program.name);
-    writeLine(" * Варіант: Войтович Олександр Вікторович");
+    writeLine(" * Generated code from V07 language");
+    writeLine(" * Program: " + program.name);
+    writeLine(" * Variant: Voitovych Oleksandr Viktorovych");
     writeLine(" */");
     writeLine("");
 
     // Includes
     generateIncludes();
 
-    // Функція main
+    // Main function
     writeLine("int main() {");
     indentLevel++;
 
-    // Змінні
+    // Variables
     generateVariables(program.variables);
     writeLine("");
 
-    // Оператори
+    // Statements
     generateStatements(program.statements);
 
-    // Завершення
+    // Finish
     writeLine("");
     writeLine("return 0;");
     indentLevel--;
@@ -176,7 +176,7 @@ void CodeGenerator::generateBlock(const BlockStmt* stmt) {
 }
 
 void CodeGenerator::generateLabel(const LabelStmt* stmt) {
-    // Мітки виводяться без відступу
+    // Labels are output without indentation
     output << stmt->name << ":\n";
 }
 
