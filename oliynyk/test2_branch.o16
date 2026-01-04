@@ -1,0 +1,36 @@
+/* Test 2: Branching algorithm - if-else (Rust style)
+startprogram
+variable _A, _B, _MAX;
+startblok
+    /* Input values
+    get(_A);
+    get(_B);
+
+    /* Find maximum using if-else
+    if _A gr _B startblok
+        _MAX :: _A;
+        put(_MAX);
+    endblok else startblok
+        _MAX :: _B;
+        put(_MAX);
+    endblok
+
+    /* Check equality
+    if _A eq _B startblok
+        put(1);
+    endblok else startblok
+        put(0);
+    endblok
+
+    /* Check if positive
+    if _A gr 0 startblok
+        put(_A);
+    endblok
+
+    /* Nested condition
+    if _A noteq 0 startblok
+        if _B noteq 0 startblok
+            put(_A + _B);
+        endblok
+    endblok
+endblok
