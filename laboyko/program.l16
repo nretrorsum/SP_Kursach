@@ -1,0 +1,15 @@
+@@ Main demo program for L16 language
+#Program DEMO;
+Start Variable A, B, RES
+
+@@ Input two numbers
+Get(A);
+Get(B);
+
+@@ Calculate sum
+RES >> A + B;
+
+@@ Output result
+Put(RES);
+
+Stop

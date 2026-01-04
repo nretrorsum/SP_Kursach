@@ -1,0 +1,33 @@
+@@ Test 3: Loop algorithm - For-To-Next (Basic style)
+#Program LOOP;
+Start Variable I, SUM, N, FACT
+
+@@ Sum of numbers from 1 to N
+Get(N);
+SUM >> 0;
+
+For I >> 1 To N
+    SUM >> SUM + I;
+Next I;
+
+Put(SUM);
+
+@@ Factorial calculation
+Get(N);
+FACT >> 1;
+
+For I >> 1 To N
+    FACT >> FACT Mul I;
+Next I;
+
+Put(FACT);
+
+@@ Countdown using labels and goto
+I >> 5;
+
+LOOP:
+Put(I);
+I >> I - 1;
+If I !< 1 Then Goto LOOP;
+
+Stop
