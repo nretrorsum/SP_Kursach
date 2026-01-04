@@ -1,6 +1,6 @@
 /**
  * Course Project on System Programming
- * Topic: Development of a translator for the V07 programming language
+ * Topic: Development of a translator for the V03 programming language
  * Variant: Voitovych Oleksandr Viktorovych
  *
  * File: main.cpp
@@ -169,13 +169,13 @@ void printWarnings(const vector<string>& warnings) {
 
 int main(int argc, char* argv[]) {
     cout << "=============================================\n";
-    cout << "  V07 Language Translator\n";
+    cout << "  V03 Language Translator\n";
     cout << "  Variant: Voitovych Oleksandr Viktorovych\n";
     cout << "  Course Project on System Programming\n";
     cout << "=============================================\n";
 
     // Determine input file
-    string inputFile = "program.v07";
+    string inputFile = "program.v03";
     if (argc > 1) {
         inputFile = argv[1];
     }

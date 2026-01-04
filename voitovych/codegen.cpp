@@ -1,6 +1,6 @@
 /**
  * Course Project on System Programming
- * Topic: Development of a translator for the V07 programming language
+ * Topic: Development of a translator for the V03 programming language
  * Variant: Voitovych Oleksandr Viktorovych
  *
  * File: codegen.cpp
@@ -27,7 +27,7 @@ void CodeGenerator::write(const std::string& text) {
 }
 
 std::string CodeGenerator::translateOperator(const std::string& op) {
-    // Convert V07 operators to C
+    // Convert V03 operators to C
     if (op == "Mul") return "*";
     if (op == "Div") return "/";
     if (op == "Mod") return "%";
@@ -49,7 +49,7 @@ std::string CodeGenerator::generate(const Program& program) {
 
     // Comment with program information
     writeLine("/**");
-    writeLine(" * Generated code from V07 language");
+    writeLine(" * Generated code from V03 language");
     writeLine(" * Program: " + program.name);
     writeLine(" * Variant: Voitovych Oleksandr Viktorovych");
     writeLine(" */");

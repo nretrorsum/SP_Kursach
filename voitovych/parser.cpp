@@ -1,6 +1,6 @@
 /**
  * Course Project on System Programming
- * Topic: Development of a translator for the V07 programming language
+ * Topic: Development of a translator for the V03 programming language
  * Variant: Voitovych Oleksandr Viktorovych
  *
  * File: parser.cpp

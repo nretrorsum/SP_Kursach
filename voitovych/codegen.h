@@ -1,6 +1,6 @@
 /**
  * Course Project on System Programming
- * Topic: Development of a translator for the V07 programming language
+ * Topic: Development of a translator for the V03 programming language
  * Variant: Voitovych Oleksandr Viktorovych
  *
  * File: codegen.h
@@ -51,7 +51,7 @@ private:
     std::string generateBinaryExpr(const BinaryExpr* expr);
     std::string generateUnaryExpr(const UnaryExpr* expr);
 
-    // Convert V07 operators to C operators
+    // Convert V03 operators to C operators
     std::string translateOperator(const std::string& op);
 };
 

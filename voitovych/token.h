@@ -1,6 +1,6 @@
 /**
  * Course Project on System Programming
- * Topic: Development of a translator for the V07 programming language
+ * Topic: Development of a translator for the V03 programming language
  * Variant: Voitovych Oleksandr Viktorovych
  *
  * File: token.h
@@ -12,7 +12,7 @@
 
 #include <string>
 
-// Token types for V07 language
+// Token types for V03 language
 enum class TokenType {
     // Keywords (Up-Low case)
     PROGRAM,        // Program
