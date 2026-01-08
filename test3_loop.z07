@@ -1,0 +1,29 @@
+%% Тестова програма 3: Циклічний алгоритм %%
+%% Автор: Запливаний Данііл Валерійович %%
+%% Варіант: 07 %%
+
+program LOOP;
+var int16_t A, B, I, J, X, SQR
+
+start
+    %% 1. Ввести два числа А і В (A < B) %%
+    get A;
+    get B;
+
+    %% 2. Простий цикл: вивести квадрати чисел від A до B %%
+    for I in A .. B start
+        SQR <- I * I;
+        put SQR
+    finish;
+
+    %% 3. Вкладений цикл: обрахувати X = A * B %%
+    X <- 0;
+    for I in 1 .. A start
+        for J in 1 .. B start
+            X <- X + 1
+        finish
+    finish;
+
+    %% 4. Вивести значення X %%
+    put X
+finish

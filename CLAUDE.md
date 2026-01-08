@@ -5,14 +5,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build Commands
 
 ```bash
-# Compile the project
-g++ -o lab_4_5 main.cpp lexer.cpp parser.cpp
+# Compile the project (full translator)
+g++ -o lab_4_5 main.cpp lexer.cpp parser.cpp semantic.cpp codegen.cpp
 
-# Run the analyzer
+# Run the analyzer on default file (program.z07)
 ./lab_4_5
+
+# Run on specific .z07 file
+./lab_4_5 test1_linear.z07
+
+# Run generated executable
+./output
 ```
 
-The program reads source code from `program.txt` and performs lexical and syntax analysis.
+The program reads source code from `.z07` files (Z07 language) and performs:
+1. Lexical analysis
+2. Syntax analysis
+3. Semantic analysis
+4. Code generation (C code)
+5. Compilation to executable
+
+**File extension:** `.z07` (Z = Запливаний, 07 = variant number)
 
 ## Architecture
 
@@ -48,9 +61,11 @@ finish
 
 ### Lexer Rules
 
-- Identifiers: start with uppercase letter, max 4 characters
-- Numbers: int16_t range (0-32767)
-- Comments: `%% ... %%` (can be multiline)
+- **Identifiers:** ALL UPPERCASE letters (Up4 rule), max 4 characters
+  - ✅ Valid: `A`, `SUM`, `MAX`, `TEMP`
+  - ❌ Invalid: `Sum`, `max`, `Variable` (>4 chars)
+- **Numbers:** int16_t range (0-32767)
+- **Comments:** `%% ... %%` (can be multiline)
 
 ### Control Flow Syntax
 

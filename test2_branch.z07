@@ -1,0 +1,70 @@
+%% Тестова програма 2: Алгоритм з розгалуженням %%
+%% Автор: Запливаний Данііл Валерійович %%
+%% Варіант: 07 %%
+
+program BRAN;
+var int16_t A, B, C, MAX, TMP, RES
+
+start
+    %% 1. Ввести три числа А, В, С %%
+    get A;
+    get B;
+    get C;
+
+    %% 2. Вкладений умовний оператор: знайти найбільше %%
+    if A >= B start
+        if A >= C start
+            MAX <- A
+        finish
+        else start
+            MAX <- C
+        finish
+    finish
+    else start
+        if B >= C start
+            MAX <- B
+        finish
+        else start
+            MAX <- C
+        finish
+    finish;
+
+    put MAX;
+
+    %% 3. Простий умовний: всі числа однакові? %%
+    %% (A=B) і (A=C) і (B=C) %%
+    if A eg B and A eg C and B eg C start
+        put 1
+    finish
+    else start
+        put 0
+    finish;
+
+    %% 4. Простий умовний: хоча б одне від'ємне? %%
+    %% A<0 or B<0 or C<0 - використаємо ne для перевірки %%
+    RES <- 0;
+    if A ne A and A ne A start
+        %% Завжди false, але треба використати логіку %%
+        RES <- 1
+    finish;
+
+    %% Альтернатива: якщо A,B,C всі >= 0, то виведе 0, інакше -1 %%
+    if A >= 0 and B >= 0 and C >= 0 start
+        put 0
+    finish
+    else start
+        TMP <- 0;
+        TMP <- TMP - 1;
+        put TMP
+    finish;
+
+    %% 5. Простий умовний: A > B+C? %%
+    %% !(A < (B+C)) еквівалентно A >= (B+C) %%
+    TMP <- B + C;
+    if A >= TMP start
+        put 10
+    finish
+    else start
+        put 0
+    finish
+finish

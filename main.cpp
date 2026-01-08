@@ -48,13 +48,21 @@ void logLineTransformation(const string& sourceCode, const vector<Token>& tokens
     cout << "======================================================================\n" << endl;
 }
 
-int main() {
-    ifstream file("program.txt");
+int main(int argc, char* argv[]) {
+    string filename = "program.z07"; // Default file
+
+    if (argc > 1) {
+        filename = argv[1];
+    }
+
+    ifstream file(filename);
 
     if (!file.is_open()) {
-        cerr << "Error: Could not open file 'program.txt'" << endl;
+        cerr << "Error: Could not open file '" << filename << "'" << endl;
         return 1;
     }
+
+    cout << "Processing file: " << filename << endl;
 
     stringstream buffer;
     buffer << file.rdbuf();
