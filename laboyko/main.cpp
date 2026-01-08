@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
+#include <iomanip>
 #include "lexer.h"
 #include "parser.h"
 #include "semantic.h"
@@ -71,6 +72,74 @@ void writeErrors(const std::vector<std::string>& errors,
     }
 }
 
+void logLineTransformation(const std::string& sourceCode, const std::vector<Token>& tokens) {
+    std::stringstream ss(sourceCode);
+    std::string lineContent;
+    int currentLine = 1;
+
+    std::cout << "\n======================================================================" << std::endl;
+    std::cout << "                    VISUALIZATION OF PARSING PROCESS                  " << std::endl;
+    std::cout << "======================================================================" << std::endl;
+
+    while (std::getline(ss, lineContent)) {
+        if (lineContent.empty()) {
+            currentLine++;
+            continue;
+        }
+
+        std::cout << "SOURCE [Line " << std::setw(2) << currentLine << "]: " << lineContent << std::endl;
+        std::cout << "   | " << std::endl;
+        std::cout << "   +--> TOKENS: ";
+
+        bool hasTokens = false;
+        for (const auto& token : tokens) {
+            if (token.line == currentLine && token.type != TokenType::END_OF_FILE) {
+                std::cout << "[" << tokenTypeToString(token.type) << ": '" << token.value << "'] ";
+                hasTokens = true;
+            }
+        }
+
+        if (!hasTokens) {
+            std::cout << "(No tokens / Comment / Empty)";
+        }
+
+        std::cout << "\n----------------------------------------------------------------------" << std::endl;
+        currentLine++;
+    }
+    std::cout << "======================================================================\n" << std::endl;
+}
+
+void printSymbolTable(const SymbolTable& symbolTable) {
+    std::cout << "\n======================================================================" << std::endl;
+    std::cout << "                           SYMBOL TABLE                               " << std::endl;
+    std::cout << "======================================================================" << std::endl;
+    std::cout << std::left << std::setw(15) << "Name"
+              << std::setw(15) << "Type"
+              << std::setw(12) << "Initialized"
+              << "Line" << std::endl;
+    std::cout << "----------------------------------------------------------------------" << std::endl;
+
+    for (const auto& name : symbolTable.getAllSymbols()) {
+        std::cout << std::left << std::setw(15) << name
+                  << std::setw(15) << "Integer32_t"
+                  << std::setw(12) << (symbolTable.isInitialized(name) ? "Yes" : "No")
+                  << "-" << std::endl;
+    }
+
+    auto labels = symbolTable.getAllLabels();
+    if (!labels.empty()) {
+        std::cout << "\n--- Labels ---" << std::endl;
+        for (const auto& label : labels) {
+            std::cout << std::left << std::setw(15) << label
+                      << std::setw(15) << "Label"
+                      << std::setw(12) << "-"
+                      << symbolTable.getLabelLine(label) << std::endl;
+        }
+    }
+
+    std::cout << "======================================================================\n" << std::endl;
+}
+
 int main(int argc, char* argv[]) {
     std::string inputFile = "program.l16";
 
@@ -92,6 +161,9 @@ int main(int argc, char* argv[]) {
         Lexer lexer(source);
         std::vector<Token> tokens = lexer.tokenize();
         writeTokens(tokens, "tokens.txt");
+
+        // Visualization of parsing process
+        logLineTransformation(source, tokens);
 
         if (!lexer.getErrors().empty()) {
             std::cout << "Lexical errors found:\n";
@@ -117,6 +189,9 @@ int main(int argc, char* argv[]) {
         std::cout << "Phase 3: Semantic Analysis...\n";
         SemanticAnalyzer semantic(symbolTable);
         semantic.analyze(program.get());
+
+        // Print symbol table
+        printSymbolTable(symbolTable);
 
         if (!semantic.getErrors().empty()) {
             std::cout << "Semantic errors found:\n";
@@ -153,17 +228,20 @@ int main(int argc, char* argv[]) {
         CodeGenerator codegen;
         std::string cCode = codegen.generate(program.get());
         writeFile("output.c", cCode);
-        std::cout << "Generated C code saved to output.c\n";
+
+        // Display generated code
+        std::cout << "\n=== Generated C Code ===" << std::endl;
+        std::cout << cCode;
+        std::cout << "========================\n" << std::endl;
 
         // Compile generated C code
         std::cout << "Compiling generated C code...\n";
         int result = system("gcc -o output output.c -w");
 
         if (result == 0) {
-            std::cout << "\nTranslation successful!\n";
-            std::cout << "Run ./output to execute the program.\n";
+            std::cout << ">>> Compilation Successful! Executable: ./output <<<\n";
         } else {
-            std::cout << "\nC compilation failed.\n";
+            std::cout << ">>> Compilation Failed! <<<\n";
             return 1;
         }
 
