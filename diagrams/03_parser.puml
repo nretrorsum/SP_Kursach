@@ -1,0 +1,53 @@
+@startuml
+title Синтаксичний аналізатор (Parser)
+skinparam defaultTextAlignment center
+
+start
+
+:pos = 0;
+
+:parseProgram();
+
+:match(PROGRAM);
+:match(IDENTIFIER);
+:match(SEMICOLON);
+
+:match(VAR);
+:parseVariableDeclaration();
+
+:match(START);
+
+while (current != FINISH?) is (так)
+
+  if (IDENTIFIER?) then (так)
+    :parseAssignment()
+    ID <- expr;
+
+  elseif (GET?) then (так)
+    :parseInput()
+    get ID;
+
+  elseif (PUT?) then (так)
+    :parseOutput()
+    put expr;
+
+  elseif (IF?) then (так)
+    :parseIf();
+
+  elseif (FOR?) then (так)
+    :parseFor();
+
+  else (помилка)
+    :ERROR;
+    stop
+  endif
+
+endwhile (ні)
+
+:match(FINISH);
+
+:Успіх!;
+
+stop
+
+@enduml

@@ -1,0 +1,54 @@
+@startuml
+title Семантичний аналізатор (Semantic)
+skinparam defaultTextAlignment center
+
+start
+
+:Створити таблицю символів;
+
+:analyzeProgram();
+
+:Оголошення змінних
+додати в symbolTable;
+
+while (current != FINISH?) is (так)
+
+  if (IDENTIFIER присвоєння?) then (так)
+    if (змінна оголошена?) then (так)
+      :OK, позначити
+      ініціалізованою;
+    else (ні)
+      :ERROR: not declared;
+    endif
+
+  elseif (GET?) then (так)
+    if (змінна оголошена?) then (так)
+      :OK, позначити
+      ініціалізованою;
+    else (ні)
+      :ERROR: not declared;
+    endif
+
+  elseif (PUT?) then (так)
+    :Перевірити вираз;
+
+  elseif (IF?) then (так)
+    :Перевірити умову та тіло;
+
+  elseif (FOR?) then (так)
+    :Перевірити змінну циклу;
+
+  endif
+
+endwhile (ні)
+
+if (є помилки?) then (так)
+  :Вивести помилки;
+  stop
+else (ні)
+  :Вивести таблицю символів;
+  :Успіх!;
+  stop
+endif
+
+@enduml

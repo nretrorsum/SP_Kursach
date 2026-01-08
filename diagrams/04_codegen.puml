@@ -1,0 +1,49 @@
+@startuml
+title Генератор коду (CodeGenerator)
+skinparam defaultTextAlignment center
+
+start
+
+:Записати заголовок C;
+
+:generateProgram();
+
+:Записати "int main() {";
+
+:Оголосити змінні
+int16_t VAR1, VAR2, ...;
+
+while (current != FINISH?) is (так)
+
+  if (IDENTIFIER?) then (так)
+    :Згенерувати присвоєння
+    varName = expr;;
+
+  elseif (GET?) then (так)
+    :Згенерувати введення
+    scanf("%hd", &var);;
+
+  elseif (PUT?) then (так)
+    :Згенерувати вивід
+    printf("%d", expr);;
+
+  elseif (IF?) then (так)
+    :Згенерувати if
+    if (cond) { ... };
+
+  elseif (FOR?) then (так)
+    :Згенерувати for
+    for (i=start; i<=end; i++);
+
+  endif
+
+endwhile (ні)
+
+:Записати "return 0;";
+:Записати "}";
+
+:Зберегти в output.c;
+
+stop
+
+@enduml

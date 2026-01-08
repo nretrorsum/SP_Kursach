@@ -1,0 +1,46 @@
+@startuml
+title Загальна робота транслятора
+skinparam defaultTextAlignment center
+
+start
+
+:Читання файлу .z07;
+
+:Лексичний аналіз
+(Lexer.tokenize);
+
+:Отримання токенів;
+
+:Синтаксичний аналіз
+(Parser.parse);
+
+if (Синтаксис OK?) then (так)
+  :Семантичний аналіз
+  (Semantic.analyze);
+
+  if (Семантика OK?) then (так)
+    :Генерація C коду
+    (CodeGen.generate);
+
+    :Збереження output.c;
+
+    :Компіляція gcc;
+
+    if (Компіляція OK?) then (так)
+      :Готово!
+      Executable: ./output;
+      stop
+    else (ні)
+      :Помилка компіляції;
+      stop
+    endif
+  else (ні)
+    :Семантичні помилки;
+    stop
+  endif
+else (ні)
+  :Синтаксичні помилки;
+  stop
+endif
+
+@enduml

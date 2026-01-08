@@ -1,0 +1,52 @@
+@startuml
+title Лексичний аналізатор (Lexer)
+skinparam defaultTextAlignment center
+
+start
+
+:pos = 0, line = 1;
+
+while (pos < len?) is (так)
+
+  if (пробіл?) then (так)
+    :pos++, якщо newline то line++;
+
+  elseif (коментар %%?) then (так)
+    :Пропустити до %%
+    skipComment();
+
+  elseif (цифра?) then (так)
+    :readNumber();
+    if (> 32767?) then (так)
+      :ERROR;
+    else (ні)
+      :Token NUMBER;
+    endif
+
+  elseif (літера?) then (так)
+    :readWord();
+
+    if (ключове слово?) then (так)
+      :Token K_XXX;
+    elseif (оператор слово?) then (так)
+      :Token OP_XXX;
+    else (ні)
+      if (Up4 правило OK?) then (так)
+        :Token IDENTIFIER;
+      else (ні)
+        :ERROR;
+      endif
+    endif
+
+  else (оператор)
+    :Token OP_XXX
+    (; , + - * / etc);
+  endif
+
+endwhile (ні)
+
+:Token END_OF_FILE;
+
+stop
+
+@enduml
