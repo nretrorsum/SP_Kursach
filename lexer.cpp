@@ -63,18 +63,29 @@ Token Lexer::readWord() {
     if (word == "and") return {OP_AND, word, line};
     if (word == "or")  return {OP_OR, word, line};
         
+    // Перевірка: перша літера має бути великою
     if (!isupper(word[0])) {
-        cout << "Lexical Error (Line " << line << "): Identifier '" << word 
-             << "' is invalid. Must start with Uppercase letter." << endl;
+        cout << "Lexical Error (Line " << line << "): Identifier '" << word
+             << "' must start with uppercase letter." << endl;
         return {UNKNOWN, word, line};
     }
 
+    // Перевірка: ВСІ літери мають бути великими (Up4)
+    for (char c : word) {
+        if (isalpha(c) && !isupper(c)) {
+            cout << "Lexical Error (Line " << line << "): Identifier '" << word
+                 << "' must contain only UPPERCASE letters (Up4 rule)." << endl;
+            return {UNKNOWN, word, line};
+        }
+    }
+
+    // Перевірка довжини
     if (word.length() > 4) {
-        cout << "Lexical Error (Line " << line << "): Identifier '" << word 
-             << "' is too long. Max length is 4 characters." << endl;
+        cout << "Lexical Error (Line " << line << "): Identifier '" << word
+             << "' exceeds max length of 4 characters." << endl;
         return {UNKNOWN, word, line};
     }
-    
+
     return {IDENTIFIER, word, line};
 }
 

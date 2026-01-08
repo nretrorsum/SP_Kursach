@@ -1,0 +1,7 @@
+program Test;
+var int16_t Sum, Max, Abc
+
+start
+    Sum <- 10;
+    Max <- 20
+finish

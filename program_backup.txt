@@ -1,4 +1,4 @@
-program BigT;
+program BIGT;
 var int16_t A, B, Sum, I, Max, Res
 
 start
