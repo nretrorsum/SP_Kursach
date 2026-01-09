@@ -17,14 +17,14 @@ start
 
     %% 4. Логіка (eg, ne, and, or, !, >=, <=) %%
     if A ne 0 and B >= A or ! SUM eg 0 start
-        A <- A - 1
+        A <- A - 1;
     finish
     else start
-        A <- 0
+        A <- 0;
     finish;
 
     %% 5. Цикл з діапазоном (..) %%
     for I in 1 .. 10 start
-        SUM <- SUM + I
+        SUM <- SUM + I;
     finish
 finish

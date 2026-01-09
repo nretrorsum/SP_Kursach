@@ -288,6 +288,13 @@ string CodeGenerator::generateExpression() {
                     else if (current().type == OP_MINUS) expr << " - ";
                     else if (current().type == OP_MUL) expr << " * ";
                     else if (current().type == OP_DIV) expr << " / ";
+                    else if (current().type == OP_MOD) expr << " % ";
+                    else if (current().type == OP_GE) expr << " >= ";
+                    else if (current().type == OP_LE) expr << " <= ";
+                    else if (current().type == OP_EG) expr << " == ";
+                    else if (current().type == OP_NE) expr << " != ";
+                    else if (current().type == OP_AND) expr << " && ";
+                    else if (current().type == OP_OR) expr << " || ";
                     else if (current().type == LPAREN) expr << "(";
                     else if (current().type == RPAREN) expr << ")";
                     advance();

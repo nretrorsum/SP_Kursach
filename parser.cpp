@@ -54,7 +54,8 @@ void Parser::parseCompoundStatement() {
     match(K_START);
     while (current().type != K_FINISH && current().type != END_OF_FILE) {
         parseStatement();
-        // Semicolon is optional after if/for statements (they end with finish)
+        // Semicolon after if/for is optional (they end with 'finish')
+        // For assignment/get/put, semicolon is now required in respective functions
         if (current().type == SEMICOLON) {
             match(SEMICOLON);
         }
@@ -87,16 +88,19 @@ void Parser::parseAssignment() {
     match(IDENTIFIER);
     match(OP_ASSIGN);
     parseExpression();
+    match(SEMICOLON); // Semicolon is required after assignment
 }
 
 void Parser::parseInput() {
     match(K_GET);
     match(IDENTIFIER);
+    match(SEMICOLON); // Semicolon is required after get
 }
 
 void Parser::parseOutput() {
     match(K_PUT);
     parseExpression();
+    match(SEMICOLON); // Semicolon is required after put
 }
 
 void Parser::parseIf() {
