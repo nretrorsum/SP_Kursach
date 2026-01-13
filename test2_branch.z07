@@ -43,19 +43,18 @@ start
     %% 4. Простий умовний: хоча б одне від'ємне? %%
     %% Логічний вираз: (A<0) або (B<0) або (C<0) %%
     %% A<0 еквівалентно !(A>=0) %%
-    if  (A <= 0) or (B <= 0) or (C <= 0) start
-        TMP <- 0;
-        TMP <- TMP - 1;
+    if ! (A >= 0) or ! (B >= 0) or ! (C >= 0) start
+        TMP <- 0 - 1;
         put TMP;
     finish
     else start
         put 0;
     finish;
 
-    %% 5. Простий умовний: A > B+C? %%
-    %% Логічний вираз: !(A<(B+C)) %%
-    %%TMP <- B + C;%%
-    if ! A <= (B + C) or A eg TMP start
+    %% 5. Простий умовний: A >= B+C? %%
+    %% Логічний вираз: !(A<(B+C)) еквівалентно A>=(B+C) %%
+    TMP <- B + C;
+    if A >= TMP start
         put 10;
     finish
     else start

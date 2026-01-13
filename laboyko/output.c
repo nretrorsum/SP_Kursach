@@ -4,26 +4,24 @@
 int main() {
     int32_t A = 0;
     int32_t B = 0;
+    int32_t I = 0;
+    int32_t J = 0;
     int32_t X = 0;
-    int32_t Y = 0;
-    int32_t Z = 0;
+    int32_t SQR = 0;
 
     scanf("%d", &A);
     scanf("%d", &B);
-    Z = (A + B);
-    printf("%d\n", Z);
-    Z = (A - B);
-    printf("%d\n", Z);
-    Z = (A * B);
-    printf("%d\n", Z);
-    Z = (A / B);
-    printf("%d\n", Z);
-    Z = (A % B);
-    printf("%d\n", Z);
-    X = (((A - B) * 10) + ((A + B) / 10));
-    Y = (X + (X % 10));
+    for (I = A; I <= B; I++) {
+        SQR = (I * I);
+        printf("%d\n", SQR);
+    }
+    X = 0;
+    for (I = 1; I <= A; I++) {
+        for (J = 1; J <= B; J++) {
+            X = (X + 1);
+        }
+    }
     printf("%d\n", X);
-    printf("%d\n", Y);
 
     return 0;
 }

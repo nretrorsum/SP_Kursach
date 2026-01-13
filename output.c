@@ -5,23 +5,21 @@
 #include <stdint.h>
 
 int main() {
-    int16_t A, B, SUM, I, MAX, RES;
+    int16_t A, B, I, J, X, SQR;
 
-    A = 10;
-    B = 32000;
-    MAX = 32767;
-    scanf("%hd", &SUM);
-    printf("%d\n", MAX);
-    SUM = A + B * 2 / 5;
-    RES = SUM % 10;
-    if (A != 0 && B >= A || (!SUM) == 0) {
-        A = A - 1;
-    } else {
-        A = 0;
+    scanf("%hd", &A);
+    scanf("%hd", &B);
+    for (I = A; I <= B; I++) {
+        SQR = I * I;
+        printf("%d\n", SQR);
     }
-    for (I = 1; I <= 10; I++) {
-        SUM = SUM + I;
+    X = 0;
+    for (I = 1; I <= A; I++) {
+        for (J = 1; J <= B; J++) {
+            X = X + 1;
+        }
     }
+    printf("%d\n", X);
 
     return 0;
 }
