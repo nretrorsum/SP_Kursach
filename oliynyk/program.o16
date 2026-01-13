@@ -1,0 +1,12 @@
+/* Main demo program for O16 language
+startprogram
+variable _A, _B, _RES;
+startblok
+    /* Input two numbers
+    get(_A);
+    get(_B);
+    /* Calculate sum
+    _RES :: _A + _B;
+    /* Output result
+    put(_RES);
+endblok

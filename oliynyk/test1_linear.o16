@@ -1,0 +1,32 @@
+/* Test 1: Linear algorithm - arithmetic operations
+startprogram
+variable _X, _Y, _Z, _R;
+startblok
+    /* Initialize variables
+    _X :: 10;
+    _Y :: 5;
+
+    /* Addition
+    _Z :: _X + _Y;
+    put(_Z);
+
+    /* Subtraction
+    _Z :: _X - _Y;
+    put(_Z);
+
+    /* Multiplication
+    _Z :: _X * _Y;
+    put(_Z);
+
+    /* Division
+    _Z :: _X / _Y;
+    put(_Z);
+
+    /* Modulo
+    _Z :: _X % _Y;
+    put(_Z);
+
+    /* Complex expression
+    _R :: (_X + _Y) * 2 - _Y / _Y;
+    put(_R);
+endblok

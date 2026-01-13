@@ -1,0 +1,35 @@
+/* Test 3: Loop algorithm - while (Rust style)
+startprogram
+variable _I, _SUM, _N, _F;
+startblok
+    /* Sum of numbers from 1 to N
+    get(_N);
+    _I :: 1;
+    _SUM :: 0;
+
+    while _I less _N + 1 startblok
+        _SUM :: _SUM + _I;
+        _I :: _I + 1;
+    endblok
+
+    put(_SUM);
+
+    /* Factorial calculation
+    get(_N);
+    _F :: 1;
+    _I :: 1;
+
+    while _I less _N + 1 startblok
+        _F :: _F * _I;
+        _I :: _I + 1;
+    endblok
+
+    put(_F);
+
+    /* Countdown
+    _I :: 5;
+    while _I gr 0 startblok
+        put(_I);
+        _I :: _I - 1;
+    endblok
+endblok
