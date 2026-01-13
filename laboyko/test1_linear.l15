@@ -1,0 +1,43 @@
+@@ LinearAlgorithm - Test 1: Linear algorithm with arithmetic operations
+@@ Variant: Laboyko Valeriy Valeriyovych
+@@ Language: L15
+
+#Program LINEAR;
+Start Variable A, B, X, Y, Z
+
+@@ 1. Input two numbers A and B
+Get(A);
+Get(B);
+
+@@ 2. Output arithmetic operations
+@@ Addition: A + B
+Z >> A + B;
+Put(Z);
+
+@@ Subtraction: A - B
+Z >> A - B;
+Put(Z);
+
+@@ Multiplication: A * B
+Z >> A Mul B;
+Put(Z);
+
+@@ Division: A / B
+Z >> A Div B;
+Put(Z);
+
+@@ Modulo: A % B
+Z >> A Mod B;
+Put(Z);
+
+@@ 3. Calculate X = (A - B) * 10 + (A + B) / 10
+X >> (A - B) Mul 10 + (A + B) Div 10;
+
+@@ 4. Calculate Y = X + X % 10
+Y >> X + X Mod 10;
+
+@@ 5. Output X and Y
+Put(X);
+Put(Y);
+
+Stop

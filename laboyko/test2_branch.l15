@@ -1,0 +1,65 @@
+@@ BranchingAlgorithm - Test 2: Branching algorithm with conditions
+@@ Variant: Laboyko Valeriy Valeriyovych
+@@ Language: L15
+
+#Program BRANCH;
+Start Variable A, B, C, MAX
+
+@@ 1. Input three numbers A, B, C
+Get(A);
+Get(B);
+Get(C);
+
+@@ 2. Find maximum using nested If-Then Goto
+MAX >> A;
+If B !< MAX Then Goto CHECKB;
+Goto CHECKC;
+
+CHECKB:
+MAX >> B;
+
+CHECKC:
+If C !< MAX Then Goto SETC;
+Goto PRINTMX;
+
+SETC:
+MAX >> C;
+
+PRINTMX:
+Put(MAX);
+
+@@ 3. Check if all equal: (A = B) And (A = C) And (B = C)
+If A <> B Then Goto NOTEQ;
+If A <> C Then Goto NOTEQ;
+If B <> C Then Goto NOTEQ;
+Put(1);
+Goto CHKNEG;
+
+NOTEQ:
+Put(0);
+
+CHKNEG:
+@@ 4. Check if any negative: (A < 0) Or (B < 0) Or (C < 0)
+@@ A < 0 is equivalent to A <= -1, which is A !> (0 - 1)
+If A !> (0 - 1) Then Goto ISNEG;
+If B !> (0 - 1) Then Goto ISNEG;
+If C !> (0 - 1) Then Goto ISNEG;
+Put(0);
+Goto CHKNOT;
+
+ISNEG:
+Put(0 - 1);
+
+CHKNOT:
+@@ 5. Check if !(A < (B + C)) - if true output 10, else 0
+@@ !(A < (B+C)) is equivalent to A >= (B+C), which is A !< (B+C)
+If A !< (B + C) Then Goto NOTLESS;
+Put(0);
+Goto DONE;
+
+NOTLESS:
+Put(10);
+
+DONE:
+
+Stop

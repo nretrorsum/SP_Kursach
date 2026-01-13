@@ -1,4 +1,4 @@
-# L16 Language Translator
+# L15 Language Translator
 
 Course Project on System Programming
 Variant: Laboyko Valeriy Valeriyovych
@@ -11,31 +11,31 @@ g++ -std=c++17 -o translator main.cpp lexer.cpp parser.cpp semantic.cpp codegen.
 
 ## Running the Translator
 
-### Default program (program.l16)
+### Default program (program.l15)
 ```bash
 ./translator
 ```
 
 ### Specific file
 ```bash
-./translator <filename.l16>
+./translator <filename.l15>
 ```
 
 ## Test Programs
 
 ### Test 1: Linear Algorithm
 ```bash
-./translator test1_linear.l16
+./translator test1_linear.l15
 ```
 
 ### Test 2: Branching Algorithm
 ```bash
-./translator test2_branch.l16
+./translator test2_branch.l15
 ```
 
 ### Test 3: Loop Algorithm
 ```bash
-./translator test3_loop.l16
+./translator test3_loop.l15
 ```
 
 ## Running Generated Program

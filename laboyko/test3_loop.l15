@@ -1,0 +1,33 @@
+@@ CyclicAlgorithm - Test 3: Loop algorithm with For-To-Next cycles
+@@ Variant: Laboyko Valeriy Valeriyovych
+@@ Language: L15
+
+#Program LOOP;
+Start Variable A, B, I, J, X, SQR
+
+@@ 1. Input two numbers A and B (A < B)
+Get(A);
+Get(B);
+
+@@ 2. Simple loop: output squares from A to B
+For I >> A To B
+    SQR >> I Mul I;
+    Put(SQR);
+Next I;
+
+@@ 3. Nested loop: calculate X = A * B
+@@ X = 0
+@@ For I = 1 to A
+@@     For J = 1 to B
+@@         X = X + 1
+X >> 0;
+For I >> 1 To A
+    For J >> 1 To B
+        X >> X + 1;
+    Next J;
+Next I;
+
+@@ 4. Output result X
+Put(X);
+
+Stop
