@@ -120,7 +120,18 @@ void Parser::parseFor() {
     parseExpression();
     match(RANGE);
     parseExpression();
-    parseCompoundStatement();
+    parseForBody();
+}
+
+void Parser::parseForBody() {
+    match(LBRACE);
+    while (current().type != RBRACE && current().type != END_OF_FILE) {
+        parseStatement();
+        if (current().type == SEMICOLON) {
+            match(SEMICOLON);
+        }
+    }
+    match(RBRACE);
 }
 
 void Parser::parseExpression() { parseLogic(); }

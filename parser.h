@@ -21,6 +21,7 @@ private:
     void parseOutput();
     void parseIf();
     void parseFor();
+    void parseForBody();
     
     void parseExpression();
     void parseLogic();

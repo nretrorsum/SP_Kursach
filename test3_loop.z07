@@ -11,18 +11,18 @@ start
     get B;
 
     %% 2. Простий цикл: вивести квадрати чисел від A до B %%
-    for I in A .. B start
+    for I in A .. B {
         SQR <- I * I;
         put SQR;
-    finish;
+    }
 
     %% 3. Вкладений цикл: обрахувати X = A * B %%
     X <- 0;
-    for I in 1 .. A start
-        for J in 1 .. B start
+    for I in 1 .. A {
+        for J in 1 .. B {
             X <- X + 1;
-        finish
-    finish;
+        }
+    }
 
     %% 4. Вивести значення X %%
     put X;

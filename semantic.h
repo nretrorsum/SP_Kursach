@@ -26,6 +26,7 @@ private:
     void analyzeOutput();
     void analyzeIf();
     void analyzeFor();
+    void analyzeForBody();
     void analyzeExpression();
     void analyzeExpressionRecursive();
 

@@ -115,6 +115,8 @@ vector<Token> Lexer::tokenize() {
             case ',': tokens.push_back({COMMA, ",", line}); pos++; break;
             case '(': tokens.push_back({LPAREN, "(", line}); pos++; break;
             case ')': tokens.push_back({RPAREN, ")", line}); pos++; break;
+            case '{': tokens.push_back({LBRACE, "{", line}); pos++; break;
+            case '}': tokens.push_back({RBRACE, "}", line}); pos++; break;
             case '+': tokens.push_back({OP_PLUS, "+", line}); pos++; break;
             case '-': tokens.push_back({OP_MINUS, "-", line}); pos++; break;
             case '*': tokens.push_back({OP_MUL, "*", line}); pos++; break;

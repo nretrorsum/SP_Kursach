@@ -1,6 +1,6 @@
 /**
  * Generated code from V03 language
- * Program: LN
+ * Program: LP
  * Variant: Voitovych Oleksandr Viktorovych
  */
 
@@ -8,19 +8,20 @@
 #include <stdint.h>
 
 int main() {
-    int16_t A, B, X, Y;
+    int16_t A, B, I, J, X;
     
     scanf("%hd", &A);
     scanf("%hd", &B);
-    printf("%d\n", (A + B));
-    printf("%d\n", (A - B));
-    printf("%d\n", (A * B));
-    printf("%d\n", (A / B));
-    printf("%d\n", (A % B));
-    X = (((A - B) * 10) + ((A + B) / 10));
-    Y = (X + (X % 10));
+    for (I = A; I <= B; I++) {
+        printf("%d\n", (I * I));
+    }
+    X = 0;
+    for (I = 1; I <= A; I++) {
+        for (J = 1; J <= B; J++) {
+            X = (X + 1);
+        }
+    }
     printf("%d\n", X);
-    printf("%d\n", Y);
     
     return 0;
 }

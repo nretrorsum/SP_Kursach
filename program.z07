@@ -24,7 +24,7 @@ start
     finish;
 
     %% 5. Цикл з діапазоном (..) %%
-    for I in 1 .. 10 start
+    for I in 1 .. 10 {
         SUM <- SUM + I;
-    finish
+    }
 finish

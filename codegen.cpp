@@ -212,9 +212,22 @@ void CodeGenerator::generateFor() {
     emitLine("for (" + loopVar + " = " + startExpr + "; " +
              loopVar + " <= " + endExpr + "; " + loopVar + "++) {");
     indentLevel++;
-    generateCompoundStatement();
+    generateForBody();
     indentLevel--;
     emitLine("}");
+}
+
+void CodeGenerator::generateForBody() {
+    match(LBRACE);
+
+    while (current().type != RBRACE && current().type != END_OF_FILE) {
+        generateStatement();
+        if (current().type == SEMICOLON) {
+            advance();
+        }
+    }
+
+    match(RBRACE);
 }
 
 string CodeGenerator::generateExpression() {
@@ -226,6 +239,7 @@ string CodeGenerator::generateExpression() {
            current().type != K_FINISH &&
            current().type != K_ELSE &&
            current().type != RANGE &&
+           current().type != LBRACE &&
            current().type != END_OF_FILE) {
 
         TokenType t = current().type;

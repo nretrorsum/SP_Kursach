@@ -33,6 +33,7 @@ private:
     void generateOutput();
     void generateIf();
     void generateFor();
+    void generateForBody();
     string generateExpression();
 
 public:

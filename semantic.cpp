@@ -168,7 +168,20 @@ void SemanticAnalyzer::analyzeFor() {
     analyzeExpression(); // start value
     match(RANGE);
     analyzeExpression(); // end value
-    analyzeCompoundStatement(); // loop body
+    analyzeForBody(); // loop body with curly braces
+}
+
+void SemanticAnalyzer::analyzeForBody() {
+    match(LBRACE);
+
+    while (current().type != RBRACE && current().type != END_OF_FILE) {
+        analyzeStatement();
+        if (current().type == SEMICOLON) {
+            advance();
+        }
+    }
+
+    match(RBRACE);
 }
 
 void SemanticAnalyzer::analyzeExpression() {

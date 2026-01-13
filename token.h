@@ -12,7 +12,7 @@ enum TokenType {
     K_INT16_T,
     OP_ASSIGN, OP_PLUS, OP_MINUS, OP_MUL, OP_DIV, OP_MOD,
     OP_EG, OP_NE, OP_GE, OP_LE, OP_NOT, OP_AND, OP_OR,
-    SEMICOLON, COMMA, RANGE, LPAREN, RPAREN,
+    SEMICOLON, COMMA, RANGE, LPAREN, RPAREN, LBRACE, RBRACE,
     IDENTIFIER, NUMBER, END_OF_FILE, UNKNOWN
 };
 
@@ -53,6 +53,8 @@ inline string tokenTypeToString(TokenType type) {
         case RANGE: return "RANGE(..)";
         case LPAREN: return "LPAREN";
         case RPAREN: return "RPAREN";
+        case LBRACE: return "LBRACE";
+        case RBRACE: return "RBRACE";
         case IDENTIFIER: return "ID";
         case NUMBER: return "NUMBER";
         case END_OF_FILE: return "EOF";
