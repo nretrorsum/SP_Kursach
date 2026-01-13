@@ -1,36 +1,49 @@
-/* Test 2: Branching algorithm - if-else (Rust style)
+/* BranchingAlgorithm - Test 2: Branching algorithm with conditions
 startprogram
-variable _A, _B, _MAX;
+variable _A, _B, _C, _MAX, _TMP;
 startblok
-    /* Input values
+    /* 1. Input three numbers A, B, C
     get(_A);
     get(_B);
+    get(_C);
 
-    /* Find maximum using if-else
+    /* 2. Find maximum using nested if-else
     if _A gr _B startblok
-        _MAX :: _A;
-        put(_MAX);
+        if _A gr _C startblok
+            _MAX :: _A;
+        endblok else startblok
+            _MAX :: _C;
+        endblok
     endblok else startblok
-        _MAX :: _B;
-        put(_MAX);
+        if _B gr _C startblok
+            _MAX :: _B;
+        endblok else startblok
+            _MAX :: _C;
+        endblok
     endblok
+    put(_MAX);
 
-    /* Check equality
-    if _A eq _B startblok
+    /* 3. Check if all equal: (A=B) and (A=C) and (B=C)
+    if _A eq _B and _A eq _C and _B eq _C startblok
         put(1);
     endblok else startblok
         put(0);
     endblok
 
-    /* Check if positive
-    if _A gr 0 startblok
-        put(_A);
+    /* 4. Check if any negative: (A<0) or (B<0) or (C<0)
+    if _A less 0 or _B less 0 or _C less 0 startblok
+        _TMP :: 0;
+        _TMP :: _TMP - 1;
+        put(_TMP);
+    endblok else startblok
+        put(0);
     endblok
 
-    /* Nested condition
-    if _A noteq 0 startblok
-        if _B noteq 0 startblok
-            put(_A + _B);
-        endblok
+    /* 5. Check if A > B+C: !(A<(B+C))
+    _TMP :: _B + _C;
+    if !(_A less _TMP) startblok
+        put(10);
+    endblok else startblok
+        put(0);
     endblok
 endblok

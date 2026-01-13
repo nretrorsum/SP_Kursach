@@ -1,35 +1,31 @@
-/* Test 3: Loop algorithm - while (Rust style)
+/* CyclicAlgorithm - Test 3: Loop algorithm with while cycles
 startprogram
-variable _I, _SUM, _N, _F;
+variable _A, _B, _I, _J, _X, _SQR;
 startblok
-    /* Sum of numbers from 1 to N
-    get(_N);
-    _I :: 1;
-    _SUM :: 0;
+    /* Input two numbers A and B
+    get(_A);
+    get(_B);
 
-    while _I less _N + 1 startblok
-        _SUM :: _SUM + _I;
+    /* Simple loop: output squares from A to B
+    _I :: _A;
+    while _I less _B + 1 startblok
+        _SQR :: _I * _I;
+        put(_SQR);
         _I :: _I + 1;
     endblok
 
-    put(_SUM);
-
-    /* Factorial calculation
-    get(_N);
-    _F :: 1;
+    /* Nested loop: calculate product
+    _X :: 0;
     _I :: 1;
-
-    while _I less _N + 1 startblok
-        _F :: _F * _I;
+    while _I less _A + 1 startblok
+        _J :: 1;
+        while _J less _B + 1 startblok
+            _X :: _X + 1;
+            _J :: _J + 1;
+        endblok
         _I :: _I + 1;
     endblok
 
-    put(_F);
-
-    /* Countdown
-    _I :: 5;
-    while _I gr 0 startblok
-        put(_I);
-        _I :: _I - 1;
-    endblok
+    /* Output result
+    put(_X);
 endblok

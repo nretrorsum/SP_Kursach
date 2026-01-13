@@ -1,32 +1,38 @@
-/* Test 1: Linear algorithm - arithmetic operations
+/* LinearAlgorithm - Test 1: Linear algorithm with arithmetic operations
 startprogram
-variable _X, _Y, _Z, _R;
+variable _X, _Y, _Z, _R, _T;
 startblok
-    /* Initialize variables
-    _X :: 10;
-    _Y :: 5;
+    /* 1. Input two numbers
+    get(_X);
+    get(_Y);
 
-    /* Addition
+    /* 2. Output arithmetic operations: addition
     _Z :: _X + _Y;
     put(_Z);
 
-    /* Subtraction
+    /* subtraction
     _Z :: _X - _Y;
     put(_Z);
 
-    /* Multiplication
+    /* multiplication
     _Z :: _X * _Y;
     put(_Z);
 
-    /* Division
+    /* division
     _Z :: _X / _Y;
     put(_Z);
 
-    /* Modulo
+    /* modulo
     _Z :: _X % _Y;
     put(_Z);
 
-    /* Complex expression
-    _R :: (_X + _Y) * 2 - _Y / _Y;
+    /* 3. Calculate X = (A - B) * 10 + (A + B) / 10
+    _R :: (_X - _Y) * 10 + (_X + _Y) / 10;
+
+    /* 4. Calculate Y = X + X % 10
+    _T :: _R + _R % 10;
+
+    /* 5. Output X and Y
     put(_R);
+    put(_T);
 endblok
