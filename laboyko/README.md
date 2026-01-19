@@ -69,7 +69,8 @@ After successful translation, an executable `output` is created:
 
 ```
 #Program NAME;
-Start Variable VAR1, VAR2
+Variable VAR1, VAR2
+Start
     @@ statements here
 Stop
 ```
@@ -78,7 +79,8 @@ Stop
 
 ```
 #Program DEMO;
-Start Variable A, B, SUM
+Variable A, B, SUM
+Start
 
 Get(A);
 Get(B);

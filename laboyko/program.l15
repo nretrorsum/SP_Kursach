@@ -1,6 +1,7 @@
-@@ Main demo program for L16 language
+@@ Main demo program for L15 language
 #Program DEMO;
-Start Variable A, B, RES
+Variable A, B, RES
+Start
 
 @@ Input two numbers
 Get(A);

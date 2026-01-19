@@ -3,7 +3,8 @@
 @@ Language: L15
 
 #Program LOOP;
-Start Variable A, B, I, J, X, SQR
+Variable A, B, I, J, X, SQR
+Start
 
 @@ 1. Input two numbers A and B (A < B)
 Get(A);

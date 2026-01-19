@@ -3,7 +3,8 @@
 @@ Language: L15
 
 #Program LINEAR;
-Start Variable A, B, X, Y, Z
+Variable A, B, X, Y, Z
+Start
 
 @@ 1. Input two numbers A and B
 Get(A);

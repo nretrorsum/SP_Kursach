@@ -3,7 +3,8 @@
 @@ Language: L15
 
 #Program BRANCH;
-Start Variable A, B, C, MAX
+Variable A, B, C, MAX
+Start
 
 @@ 1. Input three numbers A, B, C
 Get(A);
@@ -29,21 +30,17 @@ PRINTMX:
 Put(MAX);
 
 @@ 3. Check if all equal: (A = B) And (A = C) And (B = C)
-If A <> B Then Goto NOTEQ;
-If A <> C Then Goto NOTEQ;
-If B <> C Then Goto NOTEQ;
-Put(1);
+If (A = B) And (A = C) And (B = C) Then Goto ALLEQ;
+Put(0);
 Goto CHKNEG;
 
-NOTEQ:
-Put(0);
+ALLEQ:
+Put(1);
 
 CHKNEG:
 @@ 4. Check if any negative: (A < 0) Or (B < 0) Or (C < 0)
-@@ A < 0 is equivalent to A <= -1, which is A !> (0 - 1)
-If A !> (0 - 1) Then Goto ISNEG;
-If B !> (0 - 1) Then Goto ISNEG;
-If C !> (0 - 1) Then Goto ISNEG;
+@@ A < 0 is equivalent to A !> (0 - 1)
+If (A !> (0 - 1)) Or (B !> (0 - 1)) Or (C !> (0 - 1)) Then Goto ISNEG;
 Put(0);
 Goto CHKNOT;
 

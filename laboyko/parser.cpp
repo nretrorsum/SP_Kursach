@@ -51,12 +51,14 @@ std::unique_ptr<Program> Parser::parse() {
     }
     expect(TokenType::SEMICOLON, "Expected ';' after program name");
 
-    // Start Variable variables
-    expect(TokenType::START, "Expected 'Start'");
+    // Variable declarations (separate block)
     expect(TokenType::VARIABLE, "Expected 'Variable'");
     parseVariableDeclarations(*program);
 
-    // operators Stop
+    // Start - beginning of code block
+    expect(TokenType::START, "Expected 'Start'");
+
+    // Statements until Stop
     parseStatements(program->statements);
 
     expect(TokenType::STOP, "Expected 'Stop'");
